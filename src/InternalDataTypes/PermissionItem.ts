@@ -16,7 +16,7 @@ const PermissionItemJoiType = Joi.object({
     invoke: Joi.any().required()
 });
 
-let parsePermissionItem = generateParseFunction(PermissionItemJoiType);
+let parsePermissionItem = generateParseFunction<PermissionItem<any>>(PermissionItemJoiType);
 let isPermissionItem = generateIsTypeItemFunction(PermissionItemJoiType);
 
 export default PermissionItem;

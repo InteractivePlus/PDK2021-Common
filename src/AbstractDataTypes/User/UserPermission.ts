@@ -20,20 +20,20 @@ interface IndividualSectionManagementPermissions{
 
 const IndividualSectionManagementPermissionsJoiType = Joi.object({
     user: {
-        normalUsers: PermissionItemJoiType,
-        protectedUsers: PermissionItemJoiType,
-        adminUsers: PermissionItemJoiType,
-        superAdminUsers: PermissionItemJoiType
+        normalUsers: PermissionItemJoiType.required(),
+        protectedUsers: PermissionItemJoiType.required(),
+        adminUsers: PermissionItemJoiType.required(),
+        superAdminUsers: PermissionItemJoiType.required()
     },
     app: {
-        normalAPPs: PermissionItemJoiType,
-        protectedAPPs: PermissionItemJoiType,
-        trustedAPPs: PermissionItemJoiType,
-        officialAPPs: PermissionItemJoiType,
+        normalAPPs: PermissionItemJoiType.required(),
+        protectedAPPs: PermissionItemJoiType.required(),
+        trustedAPPs: PermissionItemJoiType.required(),
+        officialAPPs: PermissionItemJoiType.required(),
     }
 })
 
-let parseIndividualSectionManagementPermissions = generateParseFunction(IndividualSectionManagementPermissionsJoiType);
+let parseIndividualSectionManagementPermissions = generateParseFunction<IndividualSectionManagementPermissions>(IndividualSectionManagementPermissionsJoiType);
 let isIndividualSectoinManagementPermissions = generateIsTypeItemFunction(IndividualSectionManagementPermissionsJoiType);
 
 interface UserPermission{
@@ -44,13 +44,13 @@ interface UserPermission{
 }
 
 const UserPermissionJoiType = Joi.object({
-    canCreateAPP: SettingBooleanJoiType,
-    isAdmin: SettingBooleanJoiType,
-    isSuperAdmin: SettingBooleanJoiType,
-    individualManagementSegments: IndividualSectionManagementPermissionsJoiType
+    canCreateAPP: SettingBooleanJoiType.required(),
+    isAdmin: SettingBooleanJoiType.required(),
+    isSuperAdmin: SettingBooleanJoiType.required(),
+    individualManagementSegments: IndividualSectionManagementPermissionsJoiType.required()
 });
 
-let parseUserPermission = generateParseFunction(UserPermissionJoiType);
+let parseUserPermission = generateParseFunction<UserPermission>(UserPermissionJoiType);
 let isUserPermission = generateIsTypeItemFunction(UserPermissionJoiType);
 
 export default UserPermission;
