@@ -1,0 +1,25 @@
+{
+    "compilerOptions": {
+        "module": "ESNext",
+        "outDir": "./dist",
+        "lib":["ES5","ES6","ES2015","ES2016"],
+        "target": "ES3",
+        "noImplicitAny": true,
+        "removeComments": false,
+        "preserveConstEnums": true,
+        "sourceMap": true,
+        "allowJs": true,
+        "strict": true,
+        "moduleResolution": "Node"
+    },
+
+    "include": [
+        "src/**/*",
+        "src/*"
+    ],
+
+    "exclude": [
+        "dist",
+        "node_modules"
+    ],
+}
