@@ -1,6 +1,5 @@
 import * as Joi from "joi";
 import { generateIsTypeItemFunction, generateParseFunction } from "../Utilities/JoiCheckFunctions";
-import SettingBoolean from "./SettingBoolean";
 
 interface PermissionItem<type>{
     read: type,
@@ -9,15 +8,21 @@ interface PermissionItem<type>{
     invoke: type
 }
 
-const PermissionItemJoiType = Joi.object({
-    read: Joi.any().required(),
-    write: Joi.any().required(),
-    delete: Joi.any().required(),
-    invoke: Joi.any().required()
-});
+function getPermissionItemJoiType(innerJoiType : Joi.Schema = Joi.any()){
+    return Joi.object({
+        read: innerJoiType.required(),
+        write: innerJoiType.required(),
+        delete: innerJoiType.required(),
+        invoke: innerJoiType.required()
+    });
+}
 
-let parsePermissionItem = generateParseFunction<PermissionItem<any>>(PermissionItemJoiType);
-let isPermissionItem = generateIsTypeItemFunction(PermissionItemJoiType);
+function parsePermissionItem<innerType = any>(innerJoiType : Joi.Schema = Joi.any()) : (item:any) => PermissionItem<innerType> | undefined{
+    return generateParseFunction<PermissionItem<innerType>>(getPermissionItemJoiType(innerJoiType));
+}
+function isPermissionItem(innerJoiType : Joi.Schema = Joi.any()) : (item:any) => boolean{
+    return generateIsTypeItemFunction(getPermissionItemJoiType(innerJoiType))
+}
 
 export default PermissionItem;
-export { PermissionItemJoiType, parsePermissionItem, isPermissionItem };
+export { getPermissionItemJoiType, parsePermissionItem, isPermissionItem };

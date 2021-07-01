@@ -3,9 +3,20 @@ import parsePhoneNumber, {CountryCode, getCountries, PhoneNumber} from "libphone
 import UserPermission, { UserPermissionJoiType } from "./UserPermission";
 import UserSetting, { UserSettingJoiType } from "./UserSetting";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
+import { UserGroupGroupID, UserGroupGroupIDJoiType } from "../UserGroup/UserGroup";
+import UserEntityFormatSetting from "./UserEntityFormatSetting";
+import { getJoiTypeFromMinMaxRegex } from "../../Utilities/JoiTypeUtil";
+
+type UserEntityUID = number | string;
+const UserEntityUIDJoiType = Joi.alternatives([
+    Joi.number(),
+    Joi.string()
+]);
+
+export {UserEntityUIDJoiType, UserEntityUID};
 
 interface UserEntityCommon{
-    uid?: number | string,
+    uid: UserEntityUID,
     username : string,
     nickname? : string,
     signature? : string,
@@ -15,68 +26,93 @@ interface UserEntityCommon{
     phoneNumVerified: boolean,
     accountCreateTimeGMT: number,
     accountCreateIP?: string,
-    accountCreateArea?: string,
+    accountCreateArea?: CountryCode,
     accountFrozen: boolean,
     faceRecognitionData?: any,
     fingerprintData?: any,
     permissions: UserPermission,
-    settings: UserSetting
+    settings: UserSetting,
+    groupId: UserGroupGroupID,
+    avatarSalt?: string,
+    lastLoginTimeGMT: number,
+    lastActiveTimeGMT: number
 }
 
 interface UserEntity extends UserEntityCommon{
     phoneNumber?: PhoneNumber
 }
 
+export default UserEntity;
+
 interface UserEntityOutput extends UserEntityCommon{
     phoneNumber?: string
 }
 
-const UserEntityCommonJoiSchema : Joi.SchemaMap = {
-    uid: [
-        Joi.number().optional(),
-        Joi.string().optional()
-    ],
-    username : Joi.string().required(),
-    nickname : Joi.string().optional(),
-    signature : Joi.string().optional(),
-    passwordHash : Joi.string().optional(),
-    email: Joi.string().optional(),
-    emailVerified: Joi.boolean().required(),
-    phoneNumVerified: Joi.boolean().required(),
-    accountCreateTimeGMT: Joi.number().min(0).required(),
-    accountCreateIP: Joi.string().max(45).optional(), //IPV6 = 45, IPV4 = 15
-    accountCreateArea: Joi.allow(getCountries()).optional(),
-    accountFrozen: Joi.boolean().required(),
-    faceRecognitionData: Joi.any().optional(),
-    fingerprintData: Joi.any().optional(),
-    permissions: UserPermissionJoiType,
-    settings: UserSettingJoiType
+export {UserEntityOutput};
+
+function getUserEntityCommonJoiSchema(formatSetting? : UserEntityFormatSetting) : Joi.SchemaMap{
+    return {
+        uid: UserEntityUIDJoiType.required(),
+        username : getJoiTypeFromMinMaxRegex(formatSetting?.usernameMinLen,formatSetting?.usernameMaxLen,formatSetting?.usernameRegex).required(),
+        nickname : getJoiTypeFromMinMaxRegex(formatSetting?.nicknameMinLen,formatSetting?.nicknameMaxLen,formatSetting?.nicknameRegex).optional(),
+        signature : getJoiTypeFromMinMaxRegex(formatSetting?.signatureMinLen,formatSetting?.signatureMaxLen,formatSetting?.signatureRegex).optional(),
+        passwordHash : Joi.string().optional(),
+        email: getJoiTypeFromMinMaxRegex(formatSetting?.emailMinLen,formatSetting?.emailMaxLen,formatSetting?.emailRegex).optional(),
+        emailVerified: Joi.boolean().required(),
+        phoneNumVerified: Joi.boolean().required(),
+        accountCreateTimeGMT: Joi.number().min(0).required(),
+        accountCreateIP: Joi.string().max(45).optional(), //IPV6 = 45, IPV4 = 15
+        accountCreateArea: Joi.allow(getCountries()).optional(),
+        accountFrozen: Joi.boolean().required(),
+        faceRecognitionData: Joi.any().optional(),
+        fingerprintData: Joi.any().optional(),
+        permissions: UserPermissionJoiType.required(),
+        settings: UserSettingJoiType.required(),
+        groupId: UserGroupGroupIDJoiType.required(),
+        avatarSalt: Joi.string().optional()
+    };
 }
 
-const UserEntityJoiType = Joi.object(
-    Object.assign({
-        phoneNumber: Joi.object().instance(PhoneNumber).optional() //E164 max len = 15
-    },UserEntityCommonJoiSchema)
-);
+function getUserEntityJoiType(formatSetting? : UserEntityFormatSetting) : Joi.Schema{
+    return Joi.object(
+        Object.assign({
+            phoneNumber: Joi.object().instance(PhoneNumber).optional() //E164 max len = 15
+        },getUserEntityCommonJoiSchema(formatSetting))
+    );
+}
 
-let parseUserEntity = generateParseFunction<UserEntity>(UserEntityJoiType);
-let isUserEntity = generateIsTypeItemFunction(UserEntityJoiType);
 
-const UserEntityOutputJoiType = Joi.object(
-    Object.assign({
-        phoneNumber: Joi.string().max(16).optional() //E164 max len = 15
-    },UserEntityCommonJoiSchema)
-);
+function parseUserEntity(formatSetting? : UserEntityFormatSetting) : (item:any) => UserEntity | undefined{
+    return generateParseFunction<UserEntity>(getUserEntityJoiType(formatSetting));
+}
+function isUserEntity(formatSetting? : UserEntityFormatSetting) : (item:any) => boolean{
+    return generateIsTypeItemFunction(getUserEntityJoiType(formatSetting));
+}
 
-let parseUserEntityOutput = generateParseFunction<UserEntityOutput>(UserEntityOutputJoiType);
-let isUserEntityOutput = generateIsTypeItemFunction(UserEntityOutputJoiType);
+export {getUserEntityJoiType, parseUserEntity, isUserEntity};
 
+function getUserEntityOutputJoiType(formatSetting? : UserEntityFormatSetting) : Joi.Schema{
+    return Joi.object(
+        Object.assign({
+            phoneNumber: Joi.string().max(16).optional() //E164 max len = 15
+        },getUserEntityCommonJoiSchema(formatSetting))
+    );
+}
+
+function parseUserEntityOutput(formatSetting? : UserEntityFormatSetting) : (item:any) => UserEntityOutput | undefined{
+    return generateParseFunction<UserEntityOutput>(getUserEntityOutputJoiType(formatSetting));
+}
+function isUserEntityOutput(formatSetting? : UserEntityFormatSetting) : (item : any) => boolean{
+    return generateIsTypeItemFunction(getUserEntityOutputJoiType(formatSetting));
+}
+
+export {getUserEntityOutputJoiType, parseUserEntityOutput, isUserEntityOutput}
 
 
 function outputUserEntityAsOutputObject(userEntity : UserEntity){
     let returnData : any = {};
     for(let key in userEntity){
-        if(!(key in UserEntityOutputJoiType)){
+        if(!(key in getUserEntityOutputJoiType(undefined))){
             continue;
         }
         if(key !== 'phoneNumber' && userEntity[key as keyof UserEntity] !== undefined){
@@ -95,7 +131,4 @@ function parseUserEntityFromOutputObject(userEntityOutput : UserEntityOutput, de
     return (returnData as UserEntity);
 }
 
-export default UserEntity;
-export {UserEntityOutput, UserEntityOutputJoiType, parseUserEntityOutput, isUserEntityOutput};
-export {UserEntityJoiType, parseUserEntity, isUserEntity};
 export {outputUserEntityAsOutputObject, parseUserEntityFromOutputObject};

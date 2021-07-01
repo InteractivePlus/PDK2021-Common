@@ -1,8 +1,8 @@
 import * as Joi from "joi";
-import SettingBoolean, { SettingBooleanJoiType } from "../../InternalDataTypes/SettingBoolean";
+import { SettingBoolean, SettingBooleanJoiType, SettingObject } from "../../InternalDataTypes/SettingValue";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
 
-interface ContactMethodPreference{
+interface ContactMethodPreference extends SettingObject{
     notification: SettingBoolean,
     sales: SettingBoolean
 }
@@ -15,7 +15,7 @@ const ContactMethodPreferenceJoiType = Joi.object({
 let parseContactMethodPreference = generateParseFunction<ContactMethodPreference>(ContactMethodPreferenceJoiType);
 let isContactMethodPreference = generateIsTypeItemFunction(ContactMethodPreferenceJoiType);
 
-interface UserSetting{
+interface UserSetting extends SettingObject{
     contact: {
         email: ContactMethodPreference,
         sms: ContactMethodPreference,

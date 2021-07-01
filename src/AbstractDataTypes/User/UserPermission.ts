@@ -1,15 +1,17 @@
 import * as Joi from "joi";
-import PermissionItem, { PermissionItemJoiType } from "../../InternalDataTypes/PermissionItem";
-import SettingBoolean, { SettingBooleanJoiType } from "../../InternalDataTypes/SettingBoolean";
+import PermissionItem, { getPermissionItemJoiType } from "../../InternalDataTypes/PermissionItem";
+import { SettingBoolean, SettingBooleanJoiType, SettingNumber, SettingNumberJoiType, SettingObject } from "../../InternalDataTypes/SettingValue";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
 
-interface IndividualSectionManagementPermissions{
+interface IndividualSectionManagementPermissions extends SettingObject{
+    //@ts-ignore
     user: {
         normalUsers: PermissionItem<SettingBoolean>,
         protectedUsers: PermissionItem<SettingBoolean>,
         adminUsers: PermissionItem<SettingBoolean>,
         superAdminUsers: PermissionItem<SettingBoolean>
     },
+    //@ts-ignore
     app: {
         normalAPPs: PermissionItem<SettingBoolean>,
         protectedAPPs: PermissionItem<SettingBoolean>,
@@ -20,34 +22,40 @@ interface IndividualSectionManagementPermissions{
 
 const IndividualSectionManagementPermissionsJoiType = Joi.object({
     user: {
-        normalUsers: PermissionItemJoiType.required(),
-        protectedUsers: PermissionItemJoiType.required(),
-        adminUsers: PermissionItemJoiType.required(),
-        superAdminUsers: PermissionItemJoiType.required()
+        normalUsers: getPermissionItemJoiType(SettingBooleanJoiType).required(),
+        protectedUsers: getPermissionItemJoiType(SettingBooleanJoiType).required(),
+        adminUsers: getPermissionItemJoiType(SettingBooleanJoiType).required(),
+        superAdminUsers: getPermissionItemJoiType(SettingBooleanJoiType).required()
     },
     app: {
-        normalAPPs: PermissionItemJoiType.required(),
-        protectedAPPs: PermissionItemJoiType.required(),
-        trustedAPPs: PermissionItemJoiType.required(),
-        officialAPPs: PermissionItemJoiType.required(),
+        normalAPPs: getPermissionItemJoiType(SettingBooleanJoiType).required(),
+        protectedAPPs: getPermissionItemJoiType(SettingBooleanJoiType).required(),
+        trustedAPPs: getPermissionItemJoiType(SettingBooleanJoiType).required(),
+        officialAPPs: getPermissionItemJoiType(SettingBooleanJoiType).required(),
     }
 })
 
 let parseIndividualSectionManagementPermissions = generateParseFunction<IndividualSectionManagementPermissions>(IndividualSectionManagementPermissionsJoiType);
 let isIndividualSectoinManagementPermissions = generateIsTypeItemFunction(IndividualSectionManagementPermissionsJoiType);
 
-interface UserPermission{
+interface UserPermission extends SettingObject{
     canCreateAPP: SettingBoolean;
+    isProtectedUser: SettingBoolean,
     isAdmin: SettingBoolean;
     isSuperAdmin: SettingBoolean;
-    individualManagementSegments: IndividualSectionManagementPermissions
+    individualManagementSegments: IndividualSectionManagementPermissions,
+    maxMaskIDNum: SettingNumber,
+    maxAvatarSize: SettingNumber
 }
 
 const UserPermissionJoiType = Joi.object({
     canCreateAPP: SettingBooleanJoiType.required(),
+    isProtectedUser: SettingBooleanJoiType.required(),
     isAdmin: SettingBooleanJoiType.required(),
     isSuperAdmin: SettingBooleanJoiType.required(),
-    individualManagementSegments: IndividualSectionManagementPermissionsJoiType.required()
+    individualManagementSegments: IndividualSectionManagementPermissionsJoiType.required(),
+    maxMaskIDNum: SettingNumberJoiType.required(),
+    maxAvatarSize: SettingNumberJoiType.required()
 });
 
 let parseUserPermission = generateParseFunction<UserPermission>(UserPermissionJoiType);
