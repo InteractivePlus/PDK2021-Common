@@ -69,7 +69,9 @@ function getUserEntityCommonJoiSchema(formatSetting? : UserEntityFormatSetting) 
         permissions: UserPermissionJoiType.required(),
         settings: UserSettingJoiType.required(),
         groupId: UserGroupGroupIDJoiType.required(),
-        avatarSalt: Joi.string().optional()
+        avatarSalt: Joi.string().optional(),
+        lastLoginTimeGMT: Joi.number().required(),
+        lastActiveTimeGMT: Joi.number().required()
     };
 }
 

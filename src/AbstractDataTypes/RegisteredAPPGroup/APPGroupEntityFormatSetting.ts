@@ -1,9 +1,8 @@
-interface UserGroupFormatSetting{
+interface APPGroupEntityFormatSetting{
     nicknameMinLen?: number,
     nicknameMaxLen?: number,
     nicknameRegex?: string,
     descriptionMinLen?: number,
     descriptionMaxLen?: number,
-    descriptionRegex?: string,
+    descriptionRegex?: string
 }
-export default UserGroupFormatSetting;

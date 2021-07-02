@@ -3,6 +3,7 @@ import { generateIsTypeItemFunction, generateParseFunction } from "../../Utiliti
 import { getJoiTypeFromMinMaxRegex } from "../../Utilities/JoiTypeUtil";
 import UserPermission, { UserPermissionJoiType } from "../User/UserPermission";
 import UserSetting, { UserSettingJoiType } from "../User/UserSetting";
+import UserGroupFormatSetting from "./UserGroupFormatSetting";
 
 type UserGroupGroupID = number | string;
 const UserGroupGroupIDJoiType = Joi.alternatives([
@@ -14,7 +15,6 @@ export {UserGroupGroupID, UserGroupGroupIDJoiType};
 
 interface UserGroup{
     groupId: UserGroupGroupID,
-    groupName: string,
     nickname?: string,
     description?: string,
     permissions: UserPermission,
@@ -27,7 +27,6 @@ export default UserGroup;
 function getUserGroupJoiType(formatSetting? : UserGroupFormatSetting){
     return Joi.object({
         groupId: UserGroupGroupIDJoiType.required(),
-        groupName: getJoiTypeFromMinMaxRegex(formatSetting?.groupnameMinLen,formatSetting?.groupnameMaxLen, formatSetting?.groupnameRegex).required(),
         nickname: getJoiTypeFromMinMaxRegex(formatSetting?.nicknameMinLen, formatSetting?.nicknameMaxLen, formatSetting?.nicknameRegex).optional(),
         description: getJoiTypeFromMinMaxRegex(formatSetting?.descriptionMinLen,formatSetting?.descriptionMaxLen, formatSetting?.descriptionRegex).optional(),
         permissions: UserPermissionJoiType.required(),
