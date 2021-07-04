@@ -10,7 +10,8 @@ const APPGroupIDJoiType = Joi.alternatives([
     Joi.number()
 ]);
 
-export {APPGroupID, APPGroupIDJoiType};
+export type {APPGroupID}
+export { APPGroupIDJoiType};
 
 interface APPGroupEntity{
     appGroupId: APPGroupID,

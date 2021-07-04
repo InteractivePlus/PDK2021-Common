@@ -14,7 +14,8 @@ const APPStorageScopeSettingJoiType = Joi.object({
     canStoreData: SettingBooleanJoiType.required()
 });
 
-export {APPStorageScopeSetting, APPStorageScopeSettingJoiType};
+export type {APPStorageScopeSetting};
+export { APPStorageScopeSettingJoiType};
 
 interface APPTicketSystemSetting extends SettingObject{
     canOpenTicket: SettingBoolean,
@@ -26,7 +27,8 @@ const APPTicketSystemSettingJoiType = Joi.object({
     canAcceptNoOAuthTokenTicket: SettingBooleanJoiType.required()
 });
 
-export {APPTicketSystemSetting, APPTicketSystemSettingJoiType};
+export type {APPTicketSystemSetting};
+export { APPTicketSystemSettingJoiType};
 
 interface APPOAuthSetting extends SettingObject{
     canOAuth: SettingBoolean,
@@ -44,7 +46,8 @@ const APPOAuthSettingJoiType = Joi.object({
     ticketSetting: APPTicketSystemSettingJoiType.required()
 });
 
-export {APPOAuthSetting, APPOAuthSettingJoiType};
+export type {APPOAuthSetting};
+export { APPOAuthSettingJoiType};
 
 interface APPSetting extends SettingObject{
     oAuthSetting: APPOAuthSetting

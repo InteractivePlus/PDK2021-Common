@@ -13,7 +13,8 @@ const UserEntityUIDJoiType = Joi.alternatives([
     Joi.string()
 ]);
 
-export {UserEntityUIDJoiType, UserEntityUID};
+export {UserEntityUIDJoiType};
+export type {UserEntityUID};
 
 interface UserEntityCommon{
     uid: UserEntityUID,
@@ -48,7 +49,7 @@ interface UserEntityOutput extends UserEntityCommon{
     phoneNumber?: string
 }
 
-export {UserEntityOutput};
+export type {UserEntityOutput};
 
 function getUserEntityCommonJoiSchema(formatSetting? : UserEntityFormatSetting) : Joi.SchemaMap{
     return {

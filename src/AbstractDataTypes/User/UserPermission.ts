@@ -62,4 +62,5 @@ let parseUserPermission = generateParseFunction<UserPermission>(UserPermissionJo
 let isUserPermission = generateIsTypeItemFunction(UserPermissionJoiType);
 
 export default UserPermission;
-export {IndividualSectionManagementPermissions, IndividualSectionManagementPermissionsJoiType, parseIndividualSectionManagementPermissions, isIndividualSectoinManagementPermissions, UserPermissionJoiType, parseUserPermission, isUserPermission};
+export type {IndividualSectionManagementPermissions};
+export { IndividualSectionManagementPermissionsJoiType, parseIndividualSectionManagementPermissions, isIndividualSectoinManagementPermissions, UserPermissionJoiType, parseUserPermission, isUserPermission};

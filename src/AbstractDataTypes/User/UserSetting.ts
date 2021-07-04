@@ -41,4 +41,5 @@ let parseUserSetting = generateParseFunction<UserSetting>(UserSettingJoiType);
 let isUserSetting = generateIsTypeItemFunction(UserSettingJoiType);
 
 export default UserSetting;
-export {ContactMethodPreferenceJoiType, ContactMethodPreference, parseContactMethodPreference, isContactMethodPreference, UserSettingJoiType, parseUserSetting, isUserSetting};
+export type {ContactMethodPreference};
+export {ContactMethodPreferenceJoiType, parseContactMethodPreference, isContactMethodPreference, UserSettingJoiType, parseUserSetting, isUserSetting};

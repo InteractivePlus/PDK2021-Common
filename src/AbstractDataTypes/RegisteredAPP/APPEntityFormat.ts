@@ -6,7 +6,8 @@ let APPUIDJoiType = Joi.alternatives([
     Joi.number()
 ]);
 
-export {APPUID, APPUIDJoiType};
+export type {APPUID};
+export { APPUIDJoiType};
 
 type APPClientID = string;
 function getAPPClientIDJoiType(appClientIDCharNum? : number){
@@ -17,7 +18,8 @@ function getAPPClientIDJoiType(appClientIDCharNum? : number){
     }
 }
 
-export {APPClientID, getAPPClientIDJoiType};
+export type {APPClientID};
+export { getAPPClientIDJoiType};
 
 type APPClientSecret = string;
 function getAPPClientSecretJoiType(appClientSecretCharNum? : number){
@@ -28,4 +30,5 @@ function getAPPClientSecretJoiType(appClientSecretCharNum? : number){
     }
 }
 
-export {APPClientSecret, getAPPClientSecretJoiType};
+export type {APPClientSecret};
+export {getAPPClientSecretJoiType};

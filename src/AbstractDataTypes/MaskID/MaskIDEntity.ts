@@ -32,4 +32,5 @@ let isMaskIDEntity = generateIsTypeItemFunction(MaskIDEntityJoiType);
 
 export default MaskIDEntity;
 export {MaskIDEntityJoiType, parseMaskIDEntity, isMaskIDEntity};
-export {MaskUID, MaskUIDJoiType};
+export { MaskUIDJoiType};
+export type {MaskUID};

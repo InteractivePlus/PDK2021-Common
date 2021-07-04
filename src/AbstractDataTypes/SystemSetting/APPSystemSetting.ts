@@ -5,3 +5,5 @@ interface APPSystemSetting{
     appGroupEntityFormat: APPGroupEntityFormatSetting,
     defaultNewAPPGroupId: string
 }
+
+export default APPSystemSetting;
