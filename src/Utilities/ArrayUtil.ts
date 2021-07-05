@@ -3,3 +3,5 @@ function getArrayIntersect<T>(arrayA : T[], arrayB : T[]) : T[]{
         return arrayB.includes(value);
     });
 }
+
+export {getArrayIntersect};
