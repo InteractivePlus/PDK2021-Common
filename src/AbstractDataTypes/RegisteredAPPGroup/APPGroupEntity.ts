@@ -3,6 +3,7 @@ import { generateIsTypeItemFunction, generateParseFunction } from "../../Utiliti
 import { getJoiTypeFromMinMaxRegex } from "../../Utilities/JoiTypeUtil";
 import APPPermission, { APPPermissionJoiType } from "../RegisteredAPP/APPPermission";
 import APPSetting, { APPSettingJoiType } from "../RegisteredAPP/APPSetting";
+import APPGroupEntityFormatSetting from "./APPGroupEntityFormatSetting";
 
 type APPGroupID = string | number;
 const APPGroupIDJoiType = Joi.alternatives([

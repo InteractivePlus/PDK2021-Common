@@ -6,13 +6,54 @@ interface SettingValue<type>{
     inherit: boolean
 };
 
+export default SettingValue;
+
+function getSettingValueJoiType(innerJoiType : Joi.Schema = Joi.any()){
+    return Joi.object({
+        overrideValue: innerJoiType.optional(),
+        inherit: Joi.boolean().required()
+    });
+}
+
+export {getSettingValueJoiType};
+
+function parseSettingValue<type>(innerJoiType : Joi.Schema = Joi.any()){
+    return generateParseFunction<SettingValue<type>>(getSettingValueJoiType(innerJoiType));
+}
+function isSettingValue(innerJoiType : Joi.Schema = Joi.any()){
+    return generateIsTypeItemFunction(getSettingValueJoiType(innerJoiType));
+}
+
+export {parseSettingValue, isSettingValue}
+
+
 type SettingBoolean = SettingValue<boolean>;
 
 type SettingNumber = SettingValue<number>;
 
+export type {SettingBoolean, SettingNumber};
+
+const SettingBooleanJoiType = getSettingValueJoiType(Joi.boolean());
+const SettingNumberJoiType = getSettingValueJoiType(Joi.number());
+
+export {SettingBooleanJoiType, SettingNumberJoiType};
+
+
+let parseSettingBoolean = generateParseFunction<SettingBoolean>(SettingBooleanJoiType);
+let isSettingBoolean = generateIsTypeItemFunction(SettingBooleanJoiType);
+
+let parseSettingNumber = generateParseFunction<SettingNumber>(SettingNumberJoiType);
+let isSettingNumber = generateIsTypeItemFunction(SettingNumberJoiType);
+
+export {parseSettingBoolean, isSettingBoolean};
+export {parseSettingNumber, isSettingNumber};
+
+
 interface SettingObject{
     [key : string]: SettingValue<any> | SettingObject | undefined
 }
+
+export type {SettingObject};
 
 function getCombinedSettingObject<Type extends SettingObject>(...args: Type[]) : Type{
     let constructedSettingObject : any = {};
@@ -54,28 +95,8 @@ function getCombinedSettingObject<Type extends SettingObject>(...args: Type[]) :
     return constructedSettingObject;
 }
 
-function getSettingValueJoiType(innerJoiType : Joi.Schema = Joi.any()){
-    return Joi.object({
-        overrideValue: innerJoiType.optional(),
-        inherit: Joi.boolean().required()
-    });
-}
+export {getCombinedSettingObject};
 
-const SettingBooleanJoiType = getSettingValueJoiType(Joi.boolean());
-const SettingNumberJoiType = getSettingValueJoiType(Joi.number());
-
-function parseSettingValue<type>(innerJoiType : Joi.Schema = Joi.any()){
-    return generateParseFunction<SettingValue<type>>(getSettingValueJoiType(innerJoiType));
-}
-function isSettingValue(innerJoiType : Joi.Schema = Joi.any()){
-    return generateIsTypeItemFunction(getSettingValueJoiType(innerJoiType));
-}
-
-let parseSettingBoolean = generateParseFunction<SettingBoolean>(SettingBooleanJoiType);
-let isSettingBoolean = generateIsTypeItemFunction(SettingBooleanJoiType);
-
-let parseSettingNumber = generateParseFunction<SettingNumber>(SettingNumberJoiType);
-let isSettingNumber = generateIsTypeItemFunction(SettingNumberJoiType);
 
 function parseSettingObject(item: any) : SettingObject | undefined{
     if(typeof(item) !== 'object'){
@@ -136,9 +157,4 @@ function isSettingObject(item : any) : boolean{
     return true;
 }
 
-
-export default SettingValue;
-export {SettingBoolean, SettingBooleanJoiType, parseSettingBoolean, isSettingBoolean};
-export {SettingNumber, SettingNumberJoiType, parseSettingNumber, isSettingNumber};
-export {parseSettingValue, isSettingValue, getSettingValueJoiType};
-export {SettingObject, getCombinedSettingObject, parseSettingObject, isSettingObject};
+export {parseSettingObject, isSettingObject};

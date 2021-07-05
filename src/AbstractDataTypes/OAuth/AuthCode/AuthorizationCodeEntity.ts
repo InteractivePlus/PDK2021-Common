@@ -7,6 +7,7 @@ import APPEntityFormatSetting from "../../RegisteredAPP/APPEntityFormatSetting";
 import OAuthAuthorizationMethod, { OAuthAuthorizationMethods } from "../OAuthAuthorizationMethod";
 import OAuthScope, { OAuthScopes } from "../OAuthScope";
 import { AuthCodeChallengeType, AuthCodeChallengeTypes } from "./AuthCodeFormat";
+import AuthorizationCodeEntityFormatSetting from "./AuthorizationCodeEntityFormatSetting";
 
 type AuthCode = string;
 function getAuthCodeJoiType(charNum? : number){

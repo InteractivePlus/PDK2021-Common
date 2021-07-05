@@ -4,6 +4,7 @@ import { MaskUID, MaskUIDJoiType } from "../../MaskID/MaskIDEntity";
 import { APPClientID, APPUID, APPUIDJoiType, getAPPClientIDJoiType } from "../../RegisteredAPP/APPEntityFormat";
 import APPEntityFormatSetting from "../../RegisteredAPP/APPEntityFormatSetting";
 import { UserEntityUID, UserEntityUIDJoiType } from "../../User/UserEntity";
+import OAuthTokenFormatSetting from "./OAuthTokenFormatSetting";
 
 type OAuthAccessToken = string;
 function getOAuthAccessTokenJoiType(accessTokenCharNum? : number){

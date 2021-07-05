@@ -6,3 +6,5 @@ interface APPGroupEntityFormatSetting{
     descriptionMaxLen?: number,
     descriptionRegex?: string
 }
+
+export default APPGroupEntityFormatSetting;

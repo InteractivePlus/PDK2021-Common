@@ -11,7 +11,8 @@ const UserGroupGroupIDJoiType = Joi.alternatives([
     Joi.number()
 ]);
 
-export {UserGroupGroupID, UserGroupGroupIDJoiType};
+export type {UserGroupGroupID};
+export { UserGroupGroupIDJoiType};
 
 interface UserGroup{
     groupId: UserGroupGroupID,
