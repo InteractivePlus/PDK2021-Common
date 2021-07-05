@@ -22,7 +22,8 @@ const APPStorageScopePermissionJoiType = Joi.object({
     }
 });
 
-export {APPStorageScopePermission, APPStorageScopePermissionJoiType};
+export type {APPStorageScopePermission};
+export {APPStorageScopePermissionJoiType};
 
 interface APPTicketSystemPermission extends SettingObject{
     canOpenTicket: SettingBoolean,
@@ -40,7 +41,8 @@ const APPTicketSystemPermissionJoiType = Joi.object({
     perUserNumberLimit: SettingNumberJoiType.required()
 });
 
-export {APPTicketSystemPermission, APPTicketSystemPermissionJoiType};
+export type {APPTicketSystemPermission};
+export {APPTicketSystemPermissionJoiType};
 
 interface APPOAuthSystemPermission extends SettingObject{
     canOAuth: SettingBoolean,
@@ -61,7 +63,8 @@ const APPOAuthSystemPermissionJoiType = Joi.object({
     ticketPermission: APPTicketSystemPermissionJoiType.required()
 })
 
-export {APPOAuthSystemPermission, APPOAuthSystemPermissionJoiType};
+export type {APPOAuthSystemPermission};
+export {APPOAuthSystemPermissionJoiType};
 
 
 interface APPPermission extends SettingObject{
