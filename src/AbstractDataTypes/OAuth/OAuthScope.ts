@@ -6,5 +6,3 @@ const OAuthScopes = [
 
 export default OAuthScope;
 export {OAuthScopes};
-
-

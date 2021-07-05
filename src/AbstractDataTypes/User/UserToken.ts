@@ -1,4 +1,5 @@
 import Joi from "joi";
+import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
 import { UserEntityUID, UserEntityUIDJoiType } from "./UserEntity";
 import UserTokenFormatSetting from "./UserTokenFormatSetting";
 
@@ -30,12 +31,12 @@ interface UserToken{
     userId: UserEntityUID,
     accessToken: UserAccessToken,
     refreshToken: UserRefreshToken,
-    tokenOriginalIssueTimeGMT: number,
-    tokenRecentRefreshedTimeGMT?: number,
-    tokenExpireTimeGMT: number,
-    refreshTokenExpireTimeGMT: number,
+    issueTimeGMT: number,
+    refreshedTimeGMT?: number,
+    expireTimeGMT: number,
+    refreshExpireTimeGMT: number,
     valid: boolean,
-    invalidDueToRefresh: boolean,
+    invalidDueToRefresh?: boolean,
     issueRemoteAddr: string,
     renewRemoteAddr?: string
 }
@@ -47,8 +48,23 @@ function getUserTokenJoiType(formatSetting?: UserTokenFormatSetting) : Joi.Schem
         userId: UserEntityUIDJoiType.required(),
         accessToken: getUserAccessTokenJoiType(formatSetting?.acessTokenCharNum).required(),
         refreshToken: getUserRefreshTokenJoiType(formatSetting?.refreshTokenCharNum).required(),
-        tokenOriginalIssueTimeGMT: Joi.number().required(),
-        
-    })
+        issueTimeGMT: Joi.number().required(),
+        refreshedTimeGMT: Joi.number().optional(),
+        expireTimeGMT: Joi.number().required(),
+        refreshExpireTimeGMT: Joi.number().required(),
+        valid: Joi.boolean().required(),
+        invalidDueToRefresh: Joi.boolean().optional(),
+        issueRemoteAddr: Joi.string().required(),
+        renewRemoteAddr: Joi.string().required()
+    });
 }
 
+function parseUserToken(formatSetting? : UserTokenFormatSetting){
+    return generateParseFunction<UserToken>(getUserTokenJoiType(formatSetting));
+}
+
+function isUserToken(formatSetting?: UserTokenFormatSetting){
+    return generateIsTypeItemFunction(getUserTokenJoiType(formatSetting));
+}
+
+export {getUserTokenJoiType, parseUserToken, isUserToken};

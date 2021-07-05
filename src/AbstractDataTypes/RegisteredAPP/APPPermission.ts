@@ -1,6 +1,7 @@
 import * as Joi from "joi";
 import SettingValue, { getSettingValueJoiType, SettingBoolean, SettingBooleanJoiType, SettingNumber, SettingNumberJoiType, SettingObject } from "../../InternalDataTypes/SettingValue";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
+import { AuthCodeChallengeType } from "../OAuth/AuthCode/AuthCodeFormat";
 import OAuthAuthorizationMethod from "../OAuth/OAuthAuthorizationMethod";
 import OAuthScope from "../OAuth/OAuthScope";
 
@@ -48,6 +49,7 @@ interface APPOAuthSystemPermission extends SettingObject{
     canOAuth: SettingBoolean,
     oAuthScopes: SettingValue<Array<OAuthScope>>,
     oAuthAllowedMethods: SettingValue<Array<OAuthAuthorizationMethod>>,
+    oAuthAllowedChallengeTypes: SettingValue<Array<AuthCodeChallengeType>>,
     oAuthTokenLimit: SettingNumber,
     storagePermission: APPStorageScopePermission,
     ticketPermission: APPTicketSystemPermission
@@ -58,6 +60,7 @@ const APPOAuthSystemPermissionJoiType = Joi.object({
     canOAuth: SettingBooleanJoiType.required(),
     oAuthScopes: getSettingValueJoiType(Joi.array()).required(),
     oAuthAllowedMethods: getSettingValueJoiType(Joi.array()).required(),
+    oAuthAllowedChallengeTypes: getSettingValueJoiType(Joi.array()).required(),
     oAuthTokenLimit: SettingNumberJoiType.required(),
     storagePermission: APPStorageScopePermissionJoiType.required(),
     ticketPermission: APPTicketSystemPermissionJoiType.required()

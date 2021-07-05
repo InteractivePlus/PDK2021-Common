@@ -2,6 +2,7 @@ import * as Joi from "joi";
 import SettingValue, { getSettingValueJoiType, SettingBoolean, SettingBooleanJoiType, SettingObject } from "../../InternalDataTypes/SettingValue";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
 import { combineObjectsWithMapping, getCompareSettingValueFunc } from "../../Utilities/PermissionUtil";
+import { AuthCodeChallengeType } from "../OAuth/AuthCode/AuthCodeFormat";
 import OAuthAuthorizationMethod from "../OAuth/OAuthAuthorizationMethod";
 import OAuthScope from "../OAuth/OAuthScope";
 import APPPermission from "./APPPermission";
@@ -34,6 +35,7 @@ interface APPOAuthSetting extends SettingObject{
     canOAuth: SettingBoolean,
     oAuthScopes: SettingValue<Array<OAuthScope>>,
     oAuthAllowedMethods: SettingValue<Array<OAuthAuthorizationMethod>>,
+    oAuthAllowedChallengeTypes: SettingValue<Array<AuthCodeChallengeType>>,
     storageSetting: APPStorageScopeSetting,
     ticketSetting: APPTicketSystemSetting
 }
@@ -42,6 +44,7 @@ const APPOAuthSettingJoiType = Joi.object({
     canOAuth: SettingBooleanJoiType.required(),
     oAuthScopes: getSettingValueJoiType(Joi.array()).required(),
     oAuthAllowedMethods: getSettingValueJoiType(Joi.array()).required(),
+    oAuthAllowedChallengeTypes: getSettingValueJoiType(Joi.array()).required(),
     storageSetting: APPStorageScopeSettingJoiType.required(),
     ticketSetting: APPTicketSystemSettingJoiType.required()
 });
@@ -88,6 +91,19 @@ function combineSettingWithPermission(setting : APPSetting, perm : APPPermission
         {
             setting: ['oAuthSetting','oAuthAllowedMethods'],
             perm: ['oAuthPermission','oAuthAllowedMethods'],
+            func: getCompareSettingValueFunc((obj1,obj2)=>{
+                if(obj1 !== undefined && obj2 !== undefined){
+                    return (obj1 as Array<string>).filter(function(str){
+                        return (obj2 as Array<string>).indexOf(str) !== -1;
+                    })
+                }else{
+                    return [];
+                }
+            })
+        },
+        {
+            setting: ['oAuthSetting','oAuthAllowedChallengeTypes'],
+            perm: ['oAuthPermission','oAuthAllowedChallengeTypes'],
             func: getCompareSettingValueFunc((obj1,obj2)=>{
                 if(obj1 !== undefined && obj2 !== undefined){
                     return (obj1 as Array<string>).filter(function(str){

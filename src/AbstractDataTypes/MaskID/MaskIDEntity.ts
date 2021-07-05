@@ -4,10 +4,10 @@ import { UserEntityUID, UserEntityUIDJoiType } from "../User/UserEntity";
 import UserSetting, { UserSettingJoiType } from "../User/UserSetting";
 
 type MaskUID = number | string;
-let MaskUIDJoiType = [
-    Joi.number().required(),
-    Joi.string().required()
-];
+const MaskUIDJoiType = Joi.alternatives([
+    Joi.number(),
+    Joi.string()
+]);
 
 interface MaskIDEntity{
     relatedUID: UserEntityUID,
@@ -20,7 +20,7 @@ interface MaskIDEntity{
 
 let MaskIDEntityJoiType = Joi.object({
     relatedUID: UserEntityUIDJoiType.required(),
-    maskUID: MaskUIDJoiType,
+    maskUID: MaskUIDJoiType.required(),
     displayName: Joi.string().optional(),
     currentAuthorizedAPPUIDs: Joi.any().optional(),
     pastAuthorizedAPPUIDs: Joi.any().optional(),
