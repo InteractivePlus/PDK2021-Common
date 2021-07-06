@@ -3,4 +3,4 @@ interface AuthorizationCodeEntityFormatSetting{
     codeChallengeMaxLen: number,
 }
 
-export default AuthorizationCodeEntityFormatSetting;
+export type {AuthorizationCodeEntityFormatSetting};

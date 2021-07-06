@@ -2,9 +2,9 @@ import Joi from "joi";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../../Utilities/JoiCheckFunctions";
 import { MaskUID, MaskUIDJoiType } from "../../MaskID/MaskIDEntity";
 import { APPClientID, APPUID, APPUIDJoiType, getAPPClientIDJoiType } from "../../RegisteredAPP/APPEntityFormat";
-import APPEntityFormatSetting from "../../RegisteredAPP/APPEntityFormatSetting";
+import {APPEntityFormatSetting} from "../../RegisteredAPP/APPEntityFormatSetting";
 import { UserEntityUID, UserEntityUIDJoiType } from "../../User/UserEntity";
-import OAuthTokenFormatSetting from "./OAuthTokenFormatSetting";
+import {OAuthTokenFormatSetting} from "./OAuthTokenFormatSetting";
 
 type OAuthAccessToken = string;
 function getOAuthAccessTokenJoiType(accessTokenCharNum? : number){
@@ -47,7 +47,7 @@ interface OAuthToken{
     appSideRemoteAddr?: string
 }
 
-export default OAuthToken;
+export type {OAuthToken};
 
 function getOAuthTokenJoiType(formatSetting?: OAuthTokenFormatSetting, appEntityFormatSetting?: APPEntityFormatSetting){
     return Joi.object({

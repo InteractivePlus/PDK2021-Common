@@ -6,4 +6,4 @@ interface UserGroupFormatSetting{
     descriptionMaxLen?: number,
     descriptionRegex?: string,
 }
-export default UserGroupFormatSetting;
+export type {UserGroupFormatSetting};

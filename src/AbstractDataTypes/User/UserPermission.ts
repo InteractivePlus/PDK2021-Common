@@ -1,5 +1,5 @@
 import * as Joi from "joi";
-import PermissionItem, { getPermissionItemJoiType } from "../../InternalDataTypes/PermissionItem";
+import { PermissionItem, getPermissionItemJoiType } from "../../InternalDataTypes/PermissionItem";
 import { SettingBoolean, SettingBooleanJoiType, SettingNumber, SettingNumberJoiType, SettingObject } from "../../InternalDataTypes/SettingValue";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
 
@@ -61,6 +61,6 @@ const UserPermissionJoiType = Joi.object({
 let parseUserPermission = generateParseFunction<UserPermission>(UserPermissionJoiType);
 let isUserPermission = generateIsTypeItemFunction(UserPermissionJoiType);
 
-export default UserPermission;
+export type {UserPermission};
 export type {IndividualSectionManagementPermissions};
 export { IndividualSectionManagementPermissionsJoiType, parseIndividualSectionManagementPermissions, isIndividualSectoinManagementPermissions, UserPermissionJoiType, parseUserPermission, isUserPermission};

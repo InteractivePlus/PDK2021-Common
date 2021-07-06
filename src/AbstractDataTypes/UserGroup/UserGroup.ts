@@ -1,9 +1,9 @@
 import * as Joi from "joi";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
 import { getJoiTypeFromMinMaxRegex } from "../../Utilities/JoiTypeUtil";
-import UserPermission, { UserPermissionJoiType } from "../User/UserPermission";
-import UserSetting, { UserSettingJoiType } from "../User/UserSetting";
-import UserGroupFormatSetting from "./UserGroupFormatSetting";
+import { UserPermission, UserPermissionJoiType } from "../User/UserPermission";
+import { UserSetting, UserSettingJoiType } from "../User/UserSetting";
+import {UserGroupFormatSetting} from "./UserGroupFormatSetting";
 
 type UserGroupGroupID = number | string;
 const UserGroupGroupIDJoiType = Joi.alternatives([
@@ -23,7 +23,7 @@ interface UserGroup{
     avatarSalt?: string
 }
 
-export default UserGroup;
+export type {UserGroup};
 
 function getUserGroupJoiType(formatSetting? : UserGroupFormatSetting){
     return Joi.object({

@@ -4,5 +4,5 @@ const OAuthScopes = [
     'storage'
 ];
 
-export default OAuthScope;
+export type {OAuthScope};
 export {OAuthScopes};

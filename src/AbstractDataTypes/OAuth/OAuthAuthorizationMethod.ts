@@ -4,5 +4,5 @@ const OAuthAuthorizationMethods = [
     'Backend'
 ];
 
-export default OAuthAuthorizationMethod;
+export type {OAuthAuthorizationMethod};
 export {OAuthAuthorizationMethods};

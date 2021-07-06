@@ -1,7 +1,7 @@
 import Joi from "joi";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
 import { UserEntityUID, UserEntityUIDJoiType } from "./UserEntity";
-import UserTokenFormatSetting from "./UserTokenFormatSetting";
+import {UserTokenFormatSetting} from "./UserTokenFormatSetting";
 
 type UserAccessToken = string;
 function getUserAccessTokenJoiType(accessTokenCharNum? : number) : Joi.Schema{
@@ -41,7 +41,7 @@ interface UserToken{
     renewRemoteAddr?: string
 }
 
-export default UserToken;
+export type {UserToken};
 
 function getUserTokenJoiType(formatSetting?: UserTokenFormatSetting) : Joi.Schema{
     return Joi.object({

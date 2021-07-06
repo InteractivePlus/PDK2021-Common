@@ -3,4 +3,4 @@ interface OAuthTokenFormatSetting{
     refreshTokenCharNum: number
 }
 
-export default OAuthTokenFormatSetting;
+export type {OAuthTokenFormatSetting};

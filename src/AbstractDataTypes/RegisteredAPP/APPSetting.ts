@@ -1,11 +1,11 @@
 import * as Joi from "joi";
-import SettingValue, { getSettingValueJoiType, SettingBoolean, SettingBooleanJoiType, SettingObject } from "../../InternalDataTypes/SettingValue";
+import { SettingValue, getSettingValueJoiType, SettingBoolean, SettingBooleanJoiType, SettingObject } from "../../InternalDataTypes/SettingValue";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
 import { combineObjectsWithMapping, getCompareSettingValueFunc } from "../../Utilities/PermissionUtil";
 import { AuthCodeChallengeType } from "../OAuth/AuthCode/AuthCodeFormat";
-import OAuthAuthorizationMethod from "../OAuth/OAuthAuthorizationMethod";
-import OAuthScope from "../OAuth/OAuthScope";
-import APPPermission from "./APPPermission";
+import {OAuthAuthorizationMethod} from "../OAuth/OAuthAuthorizationMethod";
+import {OAuthScope} from "../OAuth/OAuthScope";
+import {APPPermission} from "./APPPermission";
 
 interface APPStorageScopeSetting extends SettingObject{
     canStoreData: SettingBoolean
@@ -62,7 +62,7 @@ const APPSettingJoiType = Joi.object({
 
 let parseAPPSetting = generateParseFunction<APPSetting>(APPSettingJoiType);
 let isAPPSetting = generateIsTypeItemFunction(APPSettingJoiType);
-export default APPSetting;
+export type {APPSetting};
 export {APPSettingJoiType, parseAPPSetting, isAPPSetting};
 
 function combineSettingWithPermission(setting : APPSetting, perm : APPPermission) : APPPermission{

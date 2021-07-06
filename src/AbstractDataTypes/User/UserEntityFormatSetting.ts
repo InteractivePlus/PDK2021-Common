@@ -16,4 +16,4 @@ interface UserEntityFormatSetting{
     emailRegex?: string
 }
 
-export default UserEntityFormatSetting;
+export type { UserEntityFormatSetting };

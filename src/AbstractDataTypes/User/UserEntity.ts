@@ -1,10 +1,10 @@
 import * as Joi from "joi";
 import parsePhoneNumber, {CountryCode, getCountries, PhoneNumber} from "libphonenumber-js";
-import UserPermission, { UserPermissionJoiType } from "./UserPermission";
-import UserSetting, { UserSettingJoiType } from "./UserSetting";
+import { UserPermission, UserPermissionJoiType } from "./UserPermission";
+import { UserSetting, UserSettingJoiType } from "./UserSetting";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
 import { UserGroupGroupID, UserGroupGroupIDJoiType } from "../UserGroup/UserGroup";
-import UserEntityFormatSetting from "./UserEntityFormatSetting";
+import {UserEntityFormatSetting} from "./UserEntityFormatSetting";
 import { getJoiTypeFromMinMaxRegex } from "../../Utilities/JoiTypeUtil";
 
 type UserEntityUID = number | string;
@@ -43,7 +43,7 @@ interface UserEntity extends UserEntityCommon{
     phoneNumber?: PhoneNumber
 }
 
-export default UserEntity;
+export type {UserEntity};
 
 interface UserEntityOutput extends UserEntityCommon{
     phoneNumber?: string

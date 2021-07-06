@@ -4,7 +4,7 @@ import { getJoiTypeFromMinMaxRegex } from "../../Utilities/JoiTypeUtil";
 import { APPGroupID, APPGroupIDJoiType } from "../RegisteredAPPGroup/APPGroupEntity";
 import { UserEntityUID, UserEntityUIDJoiType } from "../User/UserEntity";
 import { APPClientID, APPClientSecret, APPUID, APPUIDJoiType, getAPPClientIDJoiType, getAPPClientSecretJoiType } from "./APPEntityFormat";
-import APPEntityFormatSetting from "./APPEntityFormatSetting";
+import {APPEntityFormatSetting} from "./APPEntityFormatSetting";
 
 interface APPEntity{
     appuid: APPUID,
@@ -21,7 +21,7 @@ interface APPEntity{
     appGroupId: APPGroupID,
 }
 
-export default APPEntity;
+export type {APPEntity};
 
 function getAPPEntityJoiType(appEntityFormatSetting? : APPEntityFormatSetting){
     return Joi.object({

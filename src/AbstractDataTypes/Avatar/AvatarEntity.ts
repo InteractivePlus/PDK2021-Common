@@ -22,5 +22,5 @@ let AvatarEntityJoiType = Joi.object({
 let parseAvatar = generateParseFunction<AvatarEntity>(AvatarEntityJoiType);
 let isAvatar = generateIsTypeItemFunction(AvatarEntityJoiType);
 
-export default AvatarEntity;
+export type {AvatarEntity};
 export {AvatarEntityJoiType, parseAvatar, isAvatar};

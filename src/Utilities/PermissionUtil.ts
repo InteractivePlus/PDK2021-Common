@@ -1,4 +1,4 @@
-import SettingValue from "../InternalDataTypes/SettingValue";
+import {SettingValue} from "../InternalDataTypes/SettingValue";
 
 function getCompareSettingValueFunc(func : (obj1? : any, obj2? : any) => any, modifyObjOnRight : boolean = true){
     return (obj1?: any, obj2?: any) => {

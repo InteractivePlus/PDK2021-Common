@@ -25,6 +25,6 @@
     "libphonenumber-js": "^1.9.20"
   },
   "files": [
-    "dist/"
+    "./dist"
   ]
 }

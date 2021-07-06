@@ -1,7 +1,7 @@
 import * as Joi from "joi";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
 import { UserEntityUID, UserEntityUIDJoiType } from "../User/UserEntity";
-import UserSetting, { UserSettingJoiType } from "../User/UserSetting";
+import { UserSetting, UserSettingJoiType } from "../User/UserSetting";
 
 type MaskUID = number | string;
 const MaskUIDJoiType = Joi.alternatives([
@@ -30,7 +30,7 @@ let MaskIDEntityJoiType = Joi.object({
 let parseMaskIDEntity = generateParseFunction<MaskIDEntity>(MaskIDEntityJoiType);
 let isMaskIDEntity = generateIsTypeItemFunction(MaskIDEntityJoiType);
 
-export default MaskIDEntity;
+export type {MaskIDEntity};
 export {MaskIDEntityJoiType, parseMaskIDEntity, isMaskIDEntity};
 export { MaskUIDJoiType};
 export type {MaskUID};

@@ -7,4 +7,4 @@ interface APPGroupEntityFormatSetting{
     descriptionRegex?: string
 }
 
-export default APPGroupEntityFormatSetting;
+export type {APPGroupEntityFormatSetting};

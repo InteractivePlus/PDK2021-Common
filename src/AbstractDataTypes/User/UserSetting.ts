@@ -40,6 +40,6 @@ const UserSettingJoiType = Joi.object({
 let parseUserSetting = generateParseFunction<UserSetting>(UserSettingJoiType);
 let isUserSetting = generateIsTypeItemFunction(UserSettingJoiType);
 
-export default UserSetting;
+export type {UserSetting};
 export type {ContactMethodPreference};
 export {ContactMethodPreferenceJoiType, parseContactMethodPreference, isContactMethodPreference, UserSettingJoiType, parseUserSetting, isUserSetting};

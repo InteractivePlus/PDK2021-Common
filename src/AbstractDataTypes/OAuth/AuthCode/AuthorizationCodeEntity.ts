@@ -3,11 +3,11 @@ import { generateIsTypeItemFunction, generateParseFunction } from "../../../Util
 import { getJoiTypeFromMinMaxRegex } from "../../../Utilities/JoiTypeUtil";
 import { MaskUID, MaskUIDJoiType } from "../../MaskID/MaskIDEntity";
 import { APPClientID, APPUID, APPUIDJoiType, getAPPClientIDJoiType } from "../../RegisteredAPP/APPEntityFormat";
-import APPEntityFormatSetting from "../../RegisteredAPP/APPEntityFormatSetting";
-import OAuthAuthorizationMethod, { OAuthAuthorizationMethods } from "../OAuthAuthorizationMethod";
-import OAuthScope, { OAuthScopes } from "../OAuthScope";
+import {APPEntityFormatSetting} from "../../RegisteredAPP/APPEntityFormatSetting";
+import { OAuthAuthorizationMethod, OAuthAuthorizationMethods } from "../OAuthAuthorizationMethod";
+import { OAuthScope, OAuthScopes } from "../OAuthScope";
 import { AuthCodeChallengeType, AuthCodeChallengeTypes } from "./AuthCodeFormat";
-import AuthorizationCodeEntityFormatSetting from "./AuthorizationCodeEntityFormatSetting";
+import {AuthorizationCodeEntityFormatSetting} from "./AuthorizationCodeEntityFormatSetting";
 
 type AuthCode = string;
 function getAuthCodeJoiType(charNum? : number){

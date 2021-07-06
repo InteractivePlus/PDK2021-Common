@@ -9,4 +9,4 @@ interface APPEntityFormatSetting{
     descriptionRegex?: string
 }
 
-export default APPEntityFormatSetting;
+export type {APPEntityFormatSetting};

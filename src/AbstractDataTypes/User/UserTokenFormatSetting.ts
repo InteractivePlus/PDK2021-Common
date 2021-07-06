@@ -3,4 +3,4 @@ interface UserTokenFormatSetting{
     refreshTokenCharNum: number
 }
 
-export default UserTokenFormatSetting;
+export type {UserTokenFormatSetting};

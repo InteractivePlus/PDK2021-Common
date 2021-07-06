@@ -6,7 +6,7 @@ interface SettingValue<type>{
     inherit: boolean
 };
 
-export default SettingValue;
+export type {SettingValue};
 
 function getSettingValueJoiType(innerJoiType : Joi.Schema = Joi.any()){
     return Joi.object({

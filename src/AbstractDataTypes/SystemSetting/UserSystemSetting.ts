@@ -1,7 +1,7 @@
-import UserEntityFormatSetting from "../User/UserEntityFormatSetting";
-import UserTokenFormatSetting from "../User/UserTokenFormatSetting";
+import {UserEntityFormatSetting} from "../User/UserEntityFormatSetting";
+import {UserTokenFormatSetting} from "../User/UserTokenFormatSetting";
 import { UserGroupGroupID } from "../UserGroup/UserGroup";
-import UserGroupFormatSetting from "../UserGroup/UserGroupFormatSetting";
+import {UserGroupFormatSetting} from "../UserGroup/UserGroupFormatSetting";
 
 interface UserSystemSetting{
     userEntityFormatSetting: UserEntityFormatSetting,
@@ -11,4 +11,4 @@ interface UserSystemSetting{
     passwordEncrypt(passwordToEncrypt : string) : string;
 }
 
-export default UserSystemSetting;
+export type {UserSystemSetting};

@@ -1,9 +1,9 @@
 import * as Joi from "joi";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
 import { getJoiTypeFromMinMaxRegex } from "../../Utilities/JoiTypeUtil";
-import APPPermission, { APPPermissionJoiType } from "../RegisteredAPP/APPPermission";
-import APPSetting, { APPSettingJoiType } from "../RegisteredAPP/APPSetting";
-import APPGroupEntityFormatSetting from "./APPGroupEntityFormatSetting";
+import {APPPermission, APPPermissionJoiType } from "../RegisteredAPP/APPPermission";
+import { APPSetting, APPSettingJoiType } from "../RegisteredAPP/APPSetting";
+import {APPGroupEntityFormatSetting} from "./APPGroupEntityFormatSetting";
 
 type APPGroupID = string | number;
 const APPGroupIDJoiType = Joi.alternatives([
@@ -23,7 +23,7 @@ interface APPGroupEntity{
     avatarSalt?: string
 }
 
-export default APPGroupEntity;
+export type {APPGroupEntity};
 
 function getAPPGroupEntityJoiType(formatSetting?: APPGroupEntityFormatSetting) : Joi.Schema{
     return Joi.object({

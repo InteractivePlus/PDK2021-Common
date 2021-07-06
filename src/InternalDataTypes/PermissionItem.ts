@@ -24,5 +24,5 @@ function isPermissionItem(innerJoiType : Joi.Schema = Joi.any()) : (item:any) =>
     return generateIsTypeItemFunction(getPermissionItemJoiType(innerJoiType))
 }
 
-export default PermissionItem;
+export type {PermissionItem};
 export { getPermissionItemJoiType, parsePermissionItem, isPermissionItem };
