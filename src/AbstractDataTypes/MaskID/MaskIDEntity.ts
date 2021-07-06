@@ -13,6 +13,7 @@ interface MaskIDEntity{
     relatedUID: UserEntityUID,
     maskUID: MaskUID,
     displayName?: string,
+    createTime: number,
     currentAuthorizedAPPUIDs?: (string | number)[],
     pastAuthorizedAPPUIDs?: (string | number)[],
     settings: UserSetting
@@ -22,6 +23,7 @@ let MaskIDEntityJoiType = Joi.object({
     relatedUID: UserEntityUIDJoiType.required(),
     maskUID: MaskUIDJoiType.required(),
     displayName: Joi.string().optional(),
+    createTime: Joi.number().required(),
     currentAuthorizedAPPUIDs: Joi.any().optional(),
     pastAuthorizedAPPUIDs: Joi.any().optional(),
     settings: UserSettingJoiType.required()

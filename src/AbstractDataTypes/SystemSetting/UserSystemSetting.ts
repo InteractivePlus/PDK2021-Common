@@ -8,7 +8,11 @@ interface UserSystemSetting{
     userGroupFormatSetting: UserGroupFormatSetting,
     userTokenFormatSetting: UserTokenFormatSetting,
     defaultNewUserGroupId: UserGroupGroupID,
-    passwordEncrypt(passwordToEncrypt : string) : string;
+    userTokenAvailableDuration: {
+        accessToken: number,
+        refreshToken: number
+    },
+    passwordEncrypt(passwordToEncrypt : string) : string
 }
 
 export type {UserSystemSetting};

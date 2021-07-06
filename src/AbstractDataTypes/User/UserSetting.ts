@@ -1,6 +1,7 @@
 import * as Joi from "joi";
 import { SettingBoolean, SettingBooleanJoiType, SettingObject } from "../../InternalDataTypes/SettingValue";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
+import { CommunicationMethod, CommunicationMethods } from "../Communication/CommunicationMethod";
 
 interface ContactMethodPreference extends SettingObject{
     notification: SettingBoolean,
@@ -17,24 +18,25 @@ let isContactMethodPreference = generateIsTypeItemFunction(ContactMethodPreferen
 
 interface UserSetting extends SettingObject{
     contact: {
-        email: ContactMethodPreference,
-        sms: ContactMethodPreference,
-        phone_call: ContactMethodPreference,
-        official_apps: ContactMethodPreference,
-        third_party_apps: ContactMethodPreference,
-        wechat_subscription_account: ContactMethodPreference
+        [communication in CommunicationMethod]: ContactMethodPreference
     }
 }
 
+let UserSettingContactJoiType : Joi.SchemaMap = {};
+for(let i = 0; i< CommunicationMethods.length ;i++){
+    let currentCommMethod = CommunicationMethods[i];
+    UserSettingContactJoiType[currentCommMethod] = ContactMethodPreferenceJoiType.required();
+}
+
 const UserSettingJoiType = Joi.object({
+    contact: UserSettingContactJoiType
+    /*
     contact: {
-        email: ContactMethodPreferenceJoiType.required(),
-        sms: ContactMethodPreferenceJoiType.required(),
-        phone_call: ContactMethodPreferenceJoiType.required(),
-        official_apps: ContactMethodPreferenceJoiType.required(),
-        third_party_apps: ContactMethodPreferenceJoiType.required(),
-        wechat_subscription_account: ContactMethodPreferenceJoiType.required(),
+        'email': ContactMethodPreferenceJoiType.required(),
+        'sms': ContactMethodPreferenceJoiType.required(),
+        ...
     }
+    */
 });
 
 let parseUserSetting = generateParseFunction<UserSetting>(UserSettingJoiType);

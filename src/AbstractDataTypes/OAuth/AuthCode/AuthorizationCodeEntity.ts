@@ -36,7 +36,7 @@ interface AuthorizationCodeEntity{
     codeChallenge?: string
 }
 
-export default AuthorizationCodeEntity;
+export type {AuthorizationCodeEntity};
 
 function getAuthorizationCodeEntityJoiType(formatSetting?: AuthorizationCodeEntityFormatSetting, appEntityFormatSetting? : APPEntityFormatSetting) : Joi.Schema{
     return Joi.object({
