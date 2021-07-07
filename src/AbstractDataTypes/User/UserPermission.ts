@@ -1,22 +1,20 @@
 import * as Joi from "joi";
-import { PermissionItem, getPermissionItemJoiType } from "../../InternalDataTypes/PermissionItem";
+import { getPermissionItemJoiType, PermissionItem } from "../../InternalDataTypes/PermissionItem";
 import { SettingBoolean, SettingBooleanJoiType, SettingNumber, SettingNumberJoiType, SettingObject } from "../../InternalDataTypes/SettingValue";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
 
 interface IndividualSectionManagementPermissions extends SettingObject{
-    //@ts-ignore
     user: {
-        normalUsers: PermissionItem<SettingBoolean>,
-        protectedUsers: PermissionItem<SettingBoolean>,
-        adminUsers: PermissionItem<SettingBoolean>,
-        superAdminUsers: PermissionItem<SettingBoolean>
+        normalUsers: PermissionItem<SettingBoolean> & SettingObject,
+        protectedUsers: PermissionItem<SettingBoolean> & SettingObject,
+        adminUsers: PermissionItem<SettingBoolean> & SettingObject,
+        superAdminUsers: PermissionItem<SettingBoolean> & SettingObject
     },
-    //@ts-ignore
     app: {
-        normalAPPs: PermissionItem<SettingBoolean>,
-        protectedAPPs: PermissionItem<SettingBoolean>,
-        trustedAPPs: PermissionItem<SettingBoolean>,
-        officialAPPs: PermissionItem<SettingBoolean>
+        normalAPPs: PermissionItem<SettingBoolean> & SettingObject,
+        protectedAPPs: PermissionItem<SettingBoolean> & SettingObject,
+        trustedAPPs: PermissionItem<SettingBoolean> & SettingObject,
+        officialAPPs: PermissionItem<SettingBoolean> & SettingObject
     }
 }
 

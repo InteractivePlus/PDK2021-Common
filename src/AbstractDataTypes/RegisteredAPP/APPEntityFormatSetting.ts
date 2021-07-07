@@ -1,6 +1,6 @@
 interface APPEntityFormatSetting{
-    clientIDCharNum: number,
-    clientSecretCharNum: number,
+    clientIDCharNum?: number,
+    clientSecretCharNum?: number,
     displayNameMinLen?: number,
     displayNameMaxLen?: number,
     displayNameRegex?: string,

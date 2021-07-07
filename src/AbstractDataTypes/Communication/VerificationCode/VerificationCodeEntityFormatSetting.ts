@@ -1,5 +1,5 @@
 interface VerificationCodeEntityFormatSetting{
-    veriCodeEntityIDCharNum : number,
-    veriCodeEntityShortIDCharNum: number,
+    veriCodeEntityIDCharNum?: number,
+    veriCodeEntityShortIDCharNum?: number,
 }
 export type {VerificationCodeEntityFormatSetting};

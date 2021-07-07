@@ -37,7 +37,7 @@ interface UserToken{
     refreshExpireTimeGMT: number,
     valid: boolean,
     invalidDueToRefresh?: boolean,
-    issueRemoteAddr: string,
+    issueRemoteAddr?: string,
     renewRemoteAddr?: string
 }
 

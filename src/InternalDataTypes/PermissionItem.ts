@@ -8,6 +8,8 @@ interface PermissionItem<type>{
     invoke: type
 }
 
+export type {PermissionItem};
+
 function getPermissionItemJoiType(innerJoiType : Joi.Schema = Joi.any()){
     return Joi.object({
         read: innerJoiType.required(),
@@ -23,6 +25,4 @@ function parsePermissionItem<innerType = any>(innerJoiType : Joi.Schema = Joi.an
 function isPermissionItem(innerJoiType : Joi.Schema = Joi.any()) : (item:any) => boolean{
     return generateIsTypeItemFunction(getPermissionItemJoiType(innerJoiType))
 }
-
-export type {PermissionItem};
 export { getPermissionItemJoiType, parsePermissionItem, isPermissionItem };
