@@ -3,6 +3,7 @@ import {OAuthTokenFormatSetting} from "../OAuth/Token/OAuthTokenFormatSetting";
 
 interface OAuthSystemSetting{
     authCodeEntityFormat: AuthorizationCodeEntityFormatSetting,
+    authCodeAvailableDuration: number,
     oAuthTokenFormat: OAuthTokenFormatSetting,
     oAuthTokenAvailableDuration: {
         accessToken: number,
