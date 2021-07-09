@@ -6,9 +6,8 @@ import { generateIsTypeItemFunction, generateParseFunction } from "../../Utiliti
 import { UserGroupGroupID, UserGroupGroupIDJoiType } from "../UserGroup/UserGroup";
 import {UserEntityFormatSetting} from "./UserEntityFormatSetting";
 import { getJoiTypeFromMinMaxRegex } from "../../Utilities/JoiTypeUtil";
-import {Alpha2Code, getAlpha2Codes} from 'i18n-iso-countries';
+import {countries} from 'i18n-codes-js';
 
-export type { Alpha2Code as CountryCode, getAlpha2Codes as getCountryCodes};
 export {PhoneNumber, parsePhoneNumber};
 
 type UserEntityUID = number | string;
@@ -33,7 +32,7 @@ interface UserEntityCommon{
     phoneNumVerified: boolean,
     accountCreateTimeGMT: number,
     accountCreateIP?: string,
-    accountCreateArea?: Alpha2Code,
+    accountCreateArea?: countries.CountryCode,
     accountFrozen: boolean,
     faceRecognitionData?: any,
     fingerprintData?: any,
@@ -69,7 +68,7 @@ function getUserEntityCommonJoiSchema(formatSetting? : UserEntityFormatSetting) 
         phoneNumVerified: Joi.boolean().required(),
         accountCreateTimeGMT: Joi.number().min(0).required(),
         accountCreateIP: Joi.string().max(45).optional(), // = 45, IPV4 = 15
-        accountCreateArea: Joi.allow(...Object.keys(getAlpha2Codes())).optional(),
+        accountCreateArea: Joi.allow(...countries.allCountryCode).optional(),
         accountFrozen: Joi.boolean().required(),
         faceRecognitionData: Joi.any().optional(),
         fingerprintData: Joi.any().optional(),
@@ -132,7 +131,7 @@ function outputUserEntityAsOutputObject(userEntity : UserEntity){
     }
 }
 
-function parseUserEntityFromOutputObject(userEntityOutput : UserEntityOutput, defaultCountry? : Alpha2Code & CountryCode) : UserEntity{
+function parseUserEntityFromOutputObject(userEntityOutput : UserEntityOutput, defaultCountry? : countries.CountryCode & CountryCode) : UserEntity{
     let returnData : any = Object.assign({},userEntityOutput);
     if(userEntityOutput.phoneNumber !== undefined){
         returnData.phoneNumber = parsePhoneNumber(userEntityOutput.phoneNumber,defaultCountry);
