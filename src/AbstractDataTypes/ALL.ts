@@ -7,3 +7,4 @@ export * from './SystemSetting/ALL';
 export * from './User/ALL';
 export * from './UserGroup/ALL';
 export * from './Communication/ALL';
+export * from './Error/ALL';
