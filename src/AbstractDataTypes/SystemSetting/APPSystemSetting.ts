@@ -6,7 +6,6 @@ import {APPGroupEntityFormatSetting} from "../RegisteredAPPGroup/APPGroupEntityF
 interface APPSystemSetting{
     appEntityFormat: APPEntityFormatSetting,
     appGroupEntityFormat: APPGroupEntityFormatSetting,
-    defaultNewAPPGroupId: string,
     baseAPPPermission: APPPermission,
     baseAPPSetting: APPSetting
 }
