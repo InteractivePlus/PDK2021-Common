@@ -20,7 +20,6 @@
   "dependencies": {
     "hash.js": "^1.1.7",
     "i18n-codes-js": "^0.0.1",
-    "ip-address": "^8.0.0",
     "joi": "^17.4.0",
     "libphonenumber-js": "^1.9.20"
   },
