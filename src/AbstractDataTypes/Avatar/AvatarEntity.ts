@@ -2,18 +2,30 @@ import * as Joi from "joi";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
 import { UserEntityUID, UserEntityUIDJoiType } from "../User/UserEntity";
 
+interface AvatarData{
+    type: 'URL' | 'base64' | 'binary',
+    contentType?: 'image/jpeg' | 'image/png',
+    content: string
+}
+
+const AvatarDataJoiType = Joi.object({
+    type: Joi.string().allow(['URL','base64','binary']).required(),
+    contentType: Joi.string().allow(['image/jpeg','image/png']).optional(),
+    content: Joi.string().required()
+});
+
+export type {AvatarData};
+export {AvatarDataJoiType};
+
 interface AvatarEntity{
-    data: string | object,
+    data: AvatarData,
     salt: string,
     uploadedBy?: UserEntityUID,
     uploadTimeGMTInSec?: number
 }
 
 let AvatarEntityJoiType = Joi.object({
-    data: [
-        Joi.string().required(),
-        Joi.object().required
-    ],
+    data: AvatarDataJoiType.required(),
     salt: Joi.string().required(),
     uploadedBy: UserEntityUIDJoiType.optional(),
     uploadTimeGMTInSec: Joi.number().integer().min(0).optional()
