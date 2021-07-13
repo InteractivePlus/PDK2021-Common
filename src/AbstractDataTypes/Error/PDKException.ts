@@ -166,6 +166,21 @@ class PDKRequestParamFormatError<ArgumentNamePossibleTypes> extends PDKException
 
 export {PDKRequestParamFormatError};
 
+function generatePDKExceptionOutputObj(exception: PDKException<any>) : PDKExceptionOutput{
+    let returnObj : PDKExceptionOutput = {
+        errCode: exception.errCode,
+        params: undefined,
+        message: exception.message
+    };
+    if(exception.params !== undefined){
+        returnObj.params = Object.assign({},exception.params);
+    }
+    return returnObj;
+}
+
+export {generatePDKExceptionOutputObj};
+
+
 function checkParamInExceptionOutput(parsedOutput : PDKExceptionOutput, paramName : string) : boolean{
     return parsedOutput.params !== undefined && paramName in parsedOutput.params;
 }
