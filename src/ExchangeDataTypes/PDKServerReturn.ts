@@ -2,7 +2,7 @@ import Joi from "joi";
 import { generatePDKExceptionOutputObj, parsePDKExceptionOutputObj, PDKException, PDKExceptionCode, PDKExceptionCodes, PDKExceptionOutput, PDKExceptionOutputJoiType } from "../AbstractDataTypes/Error/PDKException";
 import { generateParseFunction } from "../Utilities/JoiCheckFunctions";
 
-interface PDKServerReturn<DataType, PossibleErrorTypes extends PDKException<any>>{
+interface PDKServerReturn<DataType extends {}, PossibleErrorTypes extends PDKException<any>>{
     errorCode: PDKExceptionCode,
     errorOutput?: PossibleErrorTypes,
     data?: DataType
@@ -11,7 +11,7 @@ interface PDKServerReturn<DataType, PossibleErrorTypes extends PDKException<any>
 export type {PDKServerReturn};
 
 
-interface PDKServerReturnExchange<DataType>{
+interface PDKServerReturnExchange<DataType extends {}>{
     errorCode: PDKExceptionCode,
     errorOutput?: PDKExceptionOutput,
     data?: DataType
