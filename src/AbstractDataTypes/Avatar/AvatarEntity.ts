@@ -9,8 +9,8 @@ interface AvatarData{
 }
 
 const AvatarDataJoiType = Joi.object({
-    type: Joi.string().allow(['URL','base64','binary']).required(),
-    contentType: Joi.string().allow(['image/jpeg','image/png']).optional(),
+    type: Joi.string().valid(['URL','base64','binary']).required(),
+    contentType: Joi.string().valid(['image/jpeg','image/png']).optional(),
     content: Joi.string().required()
 });
 
