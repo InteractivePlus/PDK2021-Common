@@ -1,4 +1,5 @@
-import { VerificationCodeEntityFormatSetting } from "../Communication/ALL";
+import { VerificationCodeEntityFormatSetting } from "../Communication/VerificationCode/VerificationCodeEntityFormatSetting";
+
 
 interface CommunicationSystemSetting{
     veriCodeEntityFormat: VerificationCodeEntityFormatSetting

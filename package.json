@@ -2,8 +2,6 @@
   "name": "@interactiveplus/pdk2021-common",
   "version": "0.0.2",
   "description": "Common Definition Files for PDK2021 Frontend and Backend",
-  "main": "dist/index.js",
-  "types": "dist/index.d.ts",
   "scripts": {
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1",

@@ -1,5 +1,5 @@
 import Joi from "joi";
-import { PDKExceptionCode } from "../AbstractDataTypes/ALL";
+import { PDKExceptionCode } from "../AbstractDataTypes/Error/PDKException";
 import { PDKPossibleServerReturnErrTypes } from "./PDKServerReturn";
 
 interface HTTPMethodInfo{
