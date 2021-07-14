@@ -62,11 +62,11 @@ function getVerificationCodeEntityJoiType(paramType : Joi.Schema = Joi.any().opt
     return Joi.alternatives([
         Joi.object(Object.assign({
             veriCodeID: getVeriCodeEntityIDJoiType(formatSetting?.veriCodeEntityIDCharNum).required(),
-            isShortID: Joi.boolean().allow([false]).required()
+            isShortID: Joi.boolean().valid(false).required()
         },baseJoiSchema)),
         Joi.object(Object.assign({
             veriCodeID: getVeriCodeEntityIDJoiType(formatSetting?.veriCodeEntityShortIDCharNum).required(),
-            isShortID: Joi.boolean().allow([true]).required()
+            isShortID: Joi.boolean().valid(true).required()
         }))
     ]);
 }

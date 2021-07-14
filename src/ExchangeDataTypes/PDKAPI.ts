@@ -1,5 +1,6 @@
 import Joi from "joi";
-import { PDKException } from "../AbstractDataTypes/ALL";
+import { PDKExceptionCode } from "../AbstractDataTypes/ALL";
+import { PDKPossibleServerReturnErrTypes } from "./PDKServerReturn";
 
 interface HTTPMethodInfo{
     methodName: string,
@@ -49,7 +50,7 @@ const PDKAPIHTTPMethods : {[httpName: string]: HTTPMethodInfo} = {
 
 export {PDKAPIHTTPMethods};
 
-interface PDKAPI<ParamType extends {}, ReturnDataType extends {}, PossibleErrorTypes extends PDKException<any>>{
+interface PDKAPI<ParamType extends {}, ReturnDataType extends {}, PossibleErrorTypes extends PDKPossibleServerReturnErrTypes>{
     relativePath: string,
     interactMethod: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
     successfulHTTPCode?: number,
@@ -58,3 +59,21 @@ interface PDKAPI<ParamType extends {}, ReturnDataType extends {}, PossibleErrorT
 }
 
 export type {PDKAPI};
+
+const PDKExceptionCodeToHTTPCodeTable : {
+    [key in PDKExceptionCode]: number
+} = {
+    0: 200,
+    1: 500,
+    2: 500,
+    3: 500,
+    4: 500,
+    10: 404,
+    11: 409,
+    12: 404,
+    13: 403,
+    14: 401,
+    20: 400
+}
+
+export {PDKExceptionCodeToHTTPCodeTable};

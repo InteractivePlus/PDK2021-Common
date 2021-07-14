@@ -1,15 +1,18 @@
 import Joi from "joi";
-import { generatePDKExceptionOutputObj, parsePDKExceptionOutputObj, PDKException, PDKExceptionCode, PDKExceptionCodes, PDKExceptionOutput, PDKExceptionOutputJoiType } from "../AbstractDataTypes/Error/PDKException";
+import { generatePDKExceptionOutputObj, parsePDKExceptionOutputObj, PDKException, PDKExceptionCode, PDKExceptionCodes, PDKExceptionOutput, PDKExceptionOutputJoiType, PDKRequestParamFormatError, PDKUnknownInnerError } from "../AbstractDataTypes/Error/PDKException";
 import { generateParseFunction } from "../Utilities/JoiCheckFunctions";
 
-interface PDKServerReturn<DataType extends {}, PossibleErrorTypes extends PDKException<any>>{
+type PDKPossibleServerReturnErrTypes = PDKException<any>;
+
+export type {PDKPossibleServerReturnErrTypes};
+
+interface PDKServerReturn<ParamType extends {}, DataType extends {}, PossibleErrorTypes extends PDKPossibleServerReturnErrTypes>{
     errorCode: PDKExceptionCode,
-    errorOutput?: PossibleErrorTypes,
+    errorOutput?: PossibleErrorTypes | PDKUnknownInnerError | PDKRequestParamFormatError<keyof ParamType>,
     data?: DataType
 }
 
 export type {PDKServerReturn};
-
 
 interface PDKServerReturnExchange<DataType extends {}>{
     errorCode: PDKExceptionCode,
@@ -19,7 +22,7 @@ interface PDKServerReturnExchange<DataType extends {}>{
 
 function getPDKServerReturnExchangeJoiType(dataJoiType : Joi.Schema = Joi.any()){
     return Joi.object({
-        errorCode: Joi.number().allow(...PDKExceptionCodes).required(),
+        errorCode: Joi.number().valid(...PDKExceptionCodes).required(),
         errorOutput: PDKExceptionOutputJoiType.optional(),
         data: dataJoiType.optional()
     });
@@ -34,7 +37,7 @@ function parsePDKServerReturnExchange<DataType>(dataJoiType : Joi.Schema = Joi.a
 
 export {parsePDKServerReturnExchange};
 
-function generatePDKServerReturnExchange<DataType, PossibleErrorTypes extends PDKException<any>>(serverReturn : PDKServerReturn<DataType,PossibleErrorTypes>) : PDKServerReturnExchange<DataType>{
+function generatePDKServerReturnExchange<ParamType, DataType, PossibleErrorTypes extends PDKPossibleServerReturnErrTypes>(serverReturn : PDKServerReturn<ParamType, DataType,PossibleErrorTypes>) : PDKServerReturnExchange<DataType>{
     return {
         errorCode: serverReturn.errorCode,
         errorOutput: serverReturn.errorOutput === undefined ? undefined : generatePDKExceptionOutputObj(serverReturn.errorOutput),
@@ -44,7 +47,7 @@ function generatePDKServerReturnExchange<DataType, PossibleErrorTypes extends PD
 
 export {generatePDKServerReturnExchange};
 
-function parsePDKServerReturn<DataType, PossibleErrorTypes extends PDKException<any>>(serverReturnExchange : PDKServerReturnExchange<DataType>) : PDKServerReturn<DataType,PossibleErrorTypes> | undefined{
+function parsePDKServerReturn<ParamType, DataType, PossibleErrorTypes extends PDKPossibleServerReturnErrTypes>(serverReturnExchange : PDKServerReturnExchange<DataType>) : PDKServerReturn<ParamType, DataType,PossibleErrorTypes> | undefined{
     
     let parsedPDKException = undefined;
     if(serverReturnExchange.errorOutput !== undefined){

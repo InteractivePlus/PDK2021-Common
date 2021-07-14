@@ -41,14 +41,14 @@ export type {AuthorizationCodeEntity};
 function getAuthorizationCodeEntityJoiType(formatSetting?: AuthorizationCodeEntityFormatSetting, appEntityFormatSetting? : APPEntityFormatSetting) : Joi.Schema{
     return Joi.object({
         authCode: getAuthCodeJoiType(formatSetting?.authCodeCharNum).required(),
-        authMethod: Joi.allow(...OAuthAuthorizationMethods).required(),
+        authMethod: Joi.valid(...OAuthAuthorizationMethods).required(),
         issueTimeGMT: Joi.number().required(),
         expireTimeGMT: Joi.number().required(),
         grantUserRemoteAddr: Joi.string().max(45), //IPV6 = 45
         appUID: APPUIDJoiType.optional(),
         clientID: getAPPClientIDJoiType(appEntityFormatSetting?.clientIDCharNum).required(),
         maskUID: MaskUIDJoiType.required(),
-        challengeType: Joi.allow(...AuthCodeChallengeTypes).required(),
+        challengeType: Joi.valid(...AuthCodeChallengeTypes).required(),
         used: Joi.boolean().required(),
         scopes: Joi.array().items(...OAuthScopes).required(),
         codeChallenge: getJoiTypeFromMinMaxRegex(undefined,formatSetting?.codeChallengeMaxLen,undefined).optional()

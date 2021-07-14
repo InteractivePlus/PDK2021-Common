@@ -68,7 +68,7 @@ function getUserEntityCommonJoiSchema(formatSetting? : UserEntityFormatSetting) 
         phoneNumVerified: Joi.boolean().required(),
         accountCreateTimeGMT: Joi.number().min(0).required(),
         accountCreateIP: Joi.string().max(45).optional(), // = 45, IPV4 = 15
-        accountCreateArea: Joi.allow(...countries.allCountryCode).optional(),
+        accountCreateArea: Joi.valid(...countries.allCountryCode).optional(),
         accountFrozen: Joi.boolean().required(),
         faceRecognitionData: Joi.any().optional(),
         fingerprintData: Joi.any().optional(),

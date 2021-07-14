@@ -50,7 +50,7 @@ interface PDKExceptionOutput{
 }
 const PDKExceptionOutputJoiType = Joi.object({
     params: Joi.any().optional(),
-    errCode: Joi.number().allow(...PDKExceptionCodes).required(),
+    errCode: Joi.number().valid(...PDKExceptionCodes).required(),
     message: Joi.string().optional()
 });
 
