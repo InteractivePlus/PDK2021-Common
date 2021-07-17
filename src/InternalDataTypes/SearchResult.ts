@@ -1,8 +1,8 @@
 class SearchResult<T>{
-    numTotalResults : number;
+    numTotalResults? : number;
     numFetchedResults: number;
     results : T[];
-    constructor(numTotalResults : number, numFetchedResults : number, results : T[]){
+    constructor(numFetchedResults : number, results : T[], numTotalResults?: number){
         this.numTotalResults = numTotalResults;
         this.numFetchedResults = numFetchedResults;
         this.results = results;
