@@ -16,8 +16,6 @@ interface MaskIDEntity{
     maskUID: MaskUID,
     displayName?: string,
     createTime: number,
-    currentAuthorizedAPPUIDs?: (string | number)[],
-    pastAuthorizedAPPUIDs?: (string | number)[],
     settings: UserSetting
 }
 
@@ -27,8 +25,6 @@ function getMaskIDEntityJoiType(format?: MaskIDEntityFormatSetting){
         maskUID: MaskUIDJoiType.required(),
         displayName: getJoiTypeFromMinMaxRegex(format?.nicknameMinLen,format?.nicknameMaxLen,format?.nicknameRegex).optional(),
         createTime: Joi.number().required(),
-        currentAuthorizedAPPUIDs: Joi.any().optional(),
-        pastAuthorizedAPPUIDs: Joi.any().optional(),
         settings: UserSettingJoiType.required()
     });
 } 
