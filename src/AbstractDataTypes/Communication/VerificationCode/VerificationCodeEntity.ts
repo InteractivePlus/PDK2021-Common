@@ -1,7 +1,8 @@
 import Joi from "joi";
 import { generateRandomHexString } from "../../../Utilities/HEXString";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../../Utilities/JoiCheckFunctions";
-import { MaskIDEntityJoiType, MaskUID } from "../../MaskID/MaskIDEntity";
+import { getMaskIDEntityJoiType, MaskUID } from "../../MaskID/MaskIDEntity";
+import { MaskIDEntityFormatSetting } from "../../MaskID/MaskIDEntityFormatSetting";
 import { getOAuthAccessTokenJoiType, OAuthAccessToken } from "../../OAuth/Token/OAuthToken";
 import { OAuthTokenFormatSetting } from "../../OAuth/Token/OAuthTokenFormatSetting";
 import { APPClientID, APPUID, APPUIDJoiType, getAPPClientIDJoiType } from "../../RegisteredAPP/APPEntityFormat";
@@ -42,11 +43,11 @@ interface VerificationCodeEntity<ParamType>{
 }
 export type {VerificationCodeEntity};
 
-function getVerificationCodeEntityJoiType(paramType : Joi.Schema = Joi.any().optional(), formatSetting?: VerificationCodeEntityFormatSetting, appEntityFormatSetting?: APPEntityFormatSetting, oAuthTokenFormatSetting?: OAuthTokenFormatSetting){
+function getVerificationCodeEntityJoiType(paramType : Joi.Schema = Joi.any().optional(), formatSetting?: VerificationCodeEntityFormatSetting, appEntityFormatSetting?: APPEntityFormatSetting, oAuthTokenFormatSetting?: OAuthTokenFormatSetting, maskIDFormatSetting?: MaskIDEntityFormatSetting){
     let baseJoiSchema : Joi.SchemaMap = {
         relatedUser: UserEntityUIDJoiType.required(),
         relatedAPP: APPUIDJoiType.required(),
-        relatedMaskID: MaskIDEntityJoiType.optional(),
+        relatedMaskID: getMaskIDEntityJoiType(maskIDFormatSetting).optional(),
         relatedAPPClientID: getAPPClientIDJoiType(appEntityFormatSetting?.clientIDCharNum).optional(),
         relatedOAuthToken: getOAuthAccessTokenJoiType(oAuthTokenFormatSetting?.accessTokenCharNum).optional(),
         param: paramType.optional(),
@@ -73,21 +74,23 @@ function getVerificationCodeEntityJoiType(paramType : Joi.Schema = Joi.any().opt
 }
 export {getVerificationCodeEntityJoiType};
 
-function parseVerificationCodeEntity<ParamType>(paramType : Joi.Schema = Joi.any().optional(), formatSetting?: VerificationCodeEntityFormatSetting, appEntityFormatSetting?: APPEntityFormatSetting, oAuthTokenFormatSetting?: OAuthTokenFormatSetting){
+function parseVerificationCodeEntity<ParamType>(paramType : Joi.Schema = Joi.any().optional(), formatSetting?: VerificationCodeEntityFormatSetting, appEntityFormatSetting?: APPEntityFormatSetting, oAuthTokenFormatSetting?: OAuthTokenFormatSetting, maskIDFormatSetting?: MaskIDEntityFormatSetting){
     return generateParseFunction<VerificationCodeEntity<ParamType>>(getVerificationCodeEntityJoiType(
         paramType,
         formatSetting,
         appEntityFormatSetting,
-        oAuthTokenFormatSetting
+        oAuthTokenFormatSetting,
+        maskIDFormatSetting
     ));
 }
 
-function isVerificationCodeEntity(paramType : Joi.Schema = Joi.any().optional(), formatSetting?: VerificationCodeEntityFormatSetting, appEntityFormatSetting?: APPEntityFormatSetting, oAuthTokenFormatSetting?: OAuthTokenFormatSetting){
+function isVerificationCodeEntity(paramType : Joi.Schema = Joi.any().optional(), formatSetting?: VerificationCodeEntityFormatSetting, appEntityFormatSetting?: APPEntityFormatSetting, oAuthTokenFormatSetting?: OAuthTokenFormatSetting, maskIDFormatSetting?: MaskIDEntityFormatSetting){
     return generateIsTypeItemFunction(getVerificationCodeEntityJoiType(
         paramType,
         formatSetting,
         appEntityFormatSetting,
-        oAuthTokenFormatSetting
+        oAuthTokenFormatSetting,
+        maskIDFormatSetting
     ));
 }
 

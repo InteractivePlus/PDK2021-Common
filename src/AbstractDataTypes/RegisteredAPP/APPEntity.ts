@@ -1,7 +1,8 @@
 import * as Joi from "joi";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
 import { getJoiTypeFromMinMaxRegex } from "../../Utilities/JoiTypeUtil";
-import { APPGroupID, APPGroupIDJoiType } from "../RegisteredAPPGroup/APPGroupEntity";
+import { APPGroupID, getAPPGroupIDJoiType } from "../RegisteredAPPGroup/APPGroupEntity";
+import { APPGroupEntityFormatSetting } from "../RegisteredAPPGroup/APPGroupEntityFormatSetting";
 import { UserEntityUID, UserEntityUIDJoiType } from "../User/UserEntity";
 import { APPClientID, APPClientSecret, APPUID, APPUIDJoiType, getAPPClientIDJoiType, getAPPClientSecretJoiType } from "./APPEntityFormat";
 import {APPEntityFormatSetting} from "./APPEntityFormatSetting";
@@ -23,7 +24,7 @@ interface APPEntity{
 
 export type {APPEntity};
 
-function getAPPEntityJoiType(appEntityFormatSetting? : APPEntityFormatSetting){
+function getAPPEntityJoiType(appEntityFormatSetting? : APPEntityFormatSetting, appGroupEntityFormatSetting?: APPGroupEntityFormatSetting){
     return Joi.object({
         appuid: APPUIDJoiType,
         clientId: getAPPClientIDJoiType(appEntityFormatSetting?.clientIDCharNum),
@@ -36,16 +37,16 @@ function getAPPEntityJoiType(appEntityFormatSetting? : APPEntityFormatSetting){
         ownerUserUID: UserEntityUIDJoiType.optional(),
         managerList: Joi.array().optional(),
         avatarSalt: Joi.string().optional(),
-        appGroupId: APPGroupIDJoiType.required()
+        appGroupId: getAPPGroupIDJoiType(appGroupEntityFormatSetting).required()
     });
 }
 
-function parseAPPEntity(formatSetting?: APPEntityFormatSetting){
-    return generateParseFunction(getAPPEntityJoiType(formatSetting));
+function parseAPPEntity(formatSetting?: APPEntityFormatSetting, appGroupEntityFormatSetting?: APPGroupEntityFormatSetting){
+    return generateParseFunction(getAPPEntityJoiType(formatSetting,appGroupEntityFormatSetting));
 }
 
-function isAPPEntity(formatSetting?: APPEntityFormatSetting){
-    return generateIsTypeItemFunction(getAPPEntityJoiType(formatSetting));
+function isAPPEntity(formatSetting?: APPEntityFormatSetting, appGroupEntityFormatSetting?: APPGroupEntityFormatSetting){
+    return generateIsTypeItemFunction(getAPPEntityJoiType(formatSetting,appGroupEntityFormatSetting));
 }
 
 export {getAPPEntityJoiType, parseAPPEntity, isAPPEntity};

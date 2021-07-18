@@ -1,3 +1,4 @@
+import { MaskIDEntityFormatSetting } from "../MaskID/MaskIDEntityFormatSetting";
 import {AuthorizationCodeEntityFormatSetting} from "../OAuth/AuthCode/AuthorizationCodeEntityFormatSetting";
 import {OAuthTokenFormatSetting} from "../OAuth/Token/OAuthTokenFormatSetting";
 
@@ -8,7 +9,8 @@ interface OAuthSystemSetting{
     oAuthTokenAvailableDuration: {
         accessToken: number,
         refreshToken: number
-    }
+    },
+    maskIDEntityFormat: MaskIDEntityFormatSetting
 }
 
 export type {OAuthSystemSetting};

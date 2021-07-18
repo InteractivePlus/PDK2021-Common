@@ -3,10 +3,11 @@ import parsePhoneNumber,  { CountryCode, PhoneNumber} from "libphonenumber-js";
 import { UserPermission, UserPermissionJoiType } from "./UserPermission";
 import { UserSetting, UserSettingJoiType } from "./UserSetting";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
-import { UserGroupGroupID, UserGroupGroupIDJoiType } from "../UserGroup/UserGroup";
+import { getUserGroupGroupIDJoiType, UserGroupGroupID } from "../UserGroup/UserGroup";
 import {UserEntityFormatSetting} from "./UserEntityFormatSetting";
 import { getJoiTypeFromMinMaxRegex } from "../../Utilities/JoiTypeUtil";
 import {countries} from 'i18n-codes-js';
+import { UserGroupFormatSetting } from "../UserGroup/UserGroupFormatSetting";
 
 export {PhoneNumber, parsePhoneNumber};
 
@@ -56,7 +57,7 @@ interface UserEntityOutput extends UserEntityCommon{
 
 export type {UserEntityOutput};
 
-function getUserEntityCommonJoiSchema(formatSetting? : UserEntityFormatSetting) : Joi.SchemaMap{
+function getUserEntityCommonJoiSchema(formatSetting? : UserEntityFormatSetting, userGroupFormatSetting? : UserGroupFormatSetting) : Joi.SchemaMap{
     return {
         uid: UserEntityUIDJoiType.required(),
         username : getJoiTypeFromMinMaxRegex(formatSetting?.usernameMinLen,formatSetting?.usernameMaxLen,formatSetting?.usernameRegex).required(),
@@ -74,44 +75,44 @@ function getUserEntityCommonJoiSchema(formatSetting? : UserEntityFormatSetting) 
         fingerprintData: Joi.any().optional(),
         permissions: UserPermissionJoiType.required(),
         settings: UserSettingJoiType.required(),
-        groupId: UserGroupGroupIDJoiType.required(),
+        groupId: getUserGroupGroupIDJoiType(userGroupFormatSetting).required(),
         avatarSalt: Joi.string().optional(),
         lastLoginTimeGMT: Joi.number().required(),
         lastActiveTimeGMT: Joi.number().required()
     };
 }
 
-function getUserEntityJoiType(formatSetting? : UserEntityFormatSetting) : Joi.Schema{
+function getUserEntityJoiType(formatSetting? : UserEntityFormatSetting, userGroupFormatSetting? : UserGroupFormatSetting) : Joi.Schema{
     return Joi.object(
         Object.assign({
             phoneNumber: Joi.object().instance(PhoneNumber).optional() //E164 max len = 15
-        },getUserEntityCommonJoiSchema(formatSetting))
+        },getUserEntityCommonJoiSchema(formatSetting,userGroupFormatSetting))
     );
 }
 
 
-function parseUserEntity(formatSetting? : UserEntityFormatSetting) : (item:any) => UserEntity | undefined{
-    return generateParseFunction<UserEntity>(getUserEntityJoiType(formatSetting));
+function parseUserEntity(formatSetting? : UserEntityFormatSetting, userGroupFormatSetting? : UserGroupFormatSetting) : (item:any) => UserEntity | undefined{
+    return generateParseFunction<UserEntity>(getUserEntityJoiType(formatSetting,userGroupFormatSetting));
 }
-function isUserEntity(formatSetting? : UserEntityFormatSetting) : (item:any) => boolean{
-    return generateIsTypeItemFunction(getUserEntityJoiType(formatSetting));
+function isUserEntity(formatSetting? : UserEntityFormatSetting, userGroupFormatSetting? : UserGroupFormatSetting) : (item:any) => boolean{
+    return generateIsTypeItemFunction(getUserEntityJoiType(formatSetting, userGroupFormatSetting));
 }
 
 export {getUserEntityJoiType, parseUserEntity, isUserEntity};
 
-function getUserEntityOutputJoiType(formatSetting? : UserEntityFormatSetting) : Joi.Schema{
+function getUserEntityOutputJoiType(formatSetting? : UserEntityFormatSetting, userGroupFormatSetting? : UserGroupFormatSetting) : Joi.Schema{
     return Joi.object(
         Object.assign({
             phoneNumber: Joi.string().max(16).optional() //E164 max len = 15
-        },getUserEntityCommonJoiSchema(formatSetting))
+        },getUserEntityCommonJoiSchema(formatSetting,userGroupFormatSetting))
     );
 }
 
-function parseUserEntityOutput(formatSetting? : UserEntityFormatSetting) : (item:any) => UserEntityOutput | undefined{
-    return generateParseFunction<UserEntityOutput>(getUserEntityOutputJoiType(formatSetting));
+function parseUserEntityOutput(formatSetting? : UserEntityFormatSetting, userGroupFormatSetting? : UserGroupFormatSetting) : (item:any) => UserEntityOutput | undefined{
+    return generateParseFunction<UserEntityOutput>(getUserEntityOutputJoiType(formatSetting,userGroupFormatSetting));
 }
-function isUserEntityOutput(formatSetting? : UserEntityFormatSetting) : (item : any) => boolean{
-    return generateIsTypeItemFunction(getUserEntityOutputJoiType(formatSetting));
+function isUserEntityOutput(formatSetting? : UserEntityFormatSetting, userGroupFormatSetting? : UserGroupFormatSetting) : (item : any) => boolean{
+    return generateIsTypeItemFunction(getUserEntityOutputJoiType(formatSetting,userGroupFormatSetting));
 }
 
 export {getUserEntityOutputJoiType, parseUserEntityOutput, isUserEntityOutput}

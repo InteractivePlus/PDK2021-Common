@@ -5,14 +5,14 @@ import { UserPermission, UserPermissionJoiType } from "../User/UserPermission";
 import { UserSetting, UserSettingJoiType } from "../User/UserSetting";
 import {UserGroupFormatSetting} from "./UserGroupFormatSetting";
 
-type UserGroupGroupID = number | string;
-const UserGroupGroupIDJoiType = Joi.alternatives([
-    Joi.string(),
-    Joi.number()
-]);
+type UserGroupGroupID = string;
+
+function getUserGroupGroupIDJoiType(formatSetting?: UserGroupFormatSetting){
+    return getJoiTypeFromMinMaxRegex(formatSetting?.groupIdMinLen,formatSetting?.groupIdMaxLen,formatSetting?.groupIdRegex);
+}
 
 export type {UserGroupGroupID};
-export { UserGroupGroupIDJoiType};
+export {getUserGroupGroupIDJoiType};
 
 interface UserGroup{
     groupId: UserGroupGroupID,
@@ -27,7 +27,7 @@ export type {UserGroup};
 
 function getUserGroupJoiType(formatSetting? : UserGroupFormatSetting){
     return Joi.object({
-        groupId: UserGroupGroupIDJoiType.required(),
+        groupId: getUserGroupGroupIDJoiType(formatSetting).required(),
         nickname: getJoiTypeFromMinMaxRegex(formatSetting?.nicknameMinLen, formatSetting?.nicknameMaxLen, formatSetting?.nicknameRegex).optional(),
         description: getJoiTypeFromMinMaxRegex(formatSetting?.descriptionMinLen,formatSetting?.descriptionMaxLen, formatSetting?.descriptionRegex).optional(),
         permissions: UserPermissionJoiType.required(),

@@ -5,14 +5,13 @@ import {APPPermission, APPPermissionJoiType } from "../RegisteredAPP/APPPermissi
 import { APPSetting, APPSettingJoiType } from "../RegisteredAPP/APPSetting";
 import {APPGroupEntityFormatSetting} from "./APPGroupEntityFormatSetting";
 
-type APPGroupID = string | number;
-const APPGroupIDJoiType = Joi.alternatives([
-    Joi.string(),
-    Joi.number()
-]);
+type APPGroupID = string;
+function getAPPGroupIDJoiType(formatSetting?: APPGroupEntityFormatSetting){
+    return getJoiTypeFromMinMaxRegex(formatSetting?.groupIdMinLen,formatSetting?.groupIdMaxLen,formatSetting?.groupIdRegex);
+}
 
 export type {APPGroupID}
-export { APPGroupIDJoiType};
+export { getAPPGroupIDJoiType};
 
 interface APPGroupEntity{
     appGroupId: APPGroupID,
@@ -27,7 +26,7 @@ export type {APPGroupEntity};
 
 function getAPPGroupEntityJoiType(formatSetting?: APPGroupEntityFormatSetting) : Joi.Schema{
     return Joi.object({
-        appGroupId: APPGroupIDJoiType.required(),
+        appGroupId: getAPPGroupIDJoiType(formatSetting).required(),
         nickname: getJoiTypeFromMinMaxRegex(formatSetting?.nicknameMinLen,formatSetting?.nicknameMaxLen,formatSetting?.nicknameRegex).optional(),
         description: getJoiTypeFromMinMaxRegex(formatSetting?.descriptionMinLen,formatSetting?.descriptionMaxLen,formatSetting?.descriptionRegex).optional(),
         permissions: APPPermissionJoiType.required(),

@@ -1,7 +1,9 @@
 import * as Joi from "joi";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
+import { getJoiTypeFromMinMaxRegex } from "../../Utilities/JoiTypeUtil";
 import { UserEntityUID, UserEntityUIDJoiType } from "../User/UserEntity";
 import { UserSetting, UserSettingJoiType } from "../User/UserSetting";
+import { MaskIDEntityFormatSetting } from "./MaskIDEntityFormatSetting";
 
 type MaskUID = number | string;
 const MaskUIDJoiType = Joi.alternatives([
@@ -19,20 +21,26 @@ interface MaskIDEntity{
     settings: UserSetting
 }
 
-let MaskIDEntityJoiType = Joi.object({
-    relatedUID: UserEntityUIDJoiType.required(),
-    maskUID: MaskUIDJoiType.required(),
-    displayName: Joi.string().optional(),
-    createTime: Joi.number().required(),
-    currentAuthorizedAPPUIDs: Joi.any().optional(),
-    pastAuthorizedAPPUIDs: Joi.any().optional(),
-    settings: UserSettingJoiType.required()
-});
+function getMaskIDEntityJoiType(format?: MaskIDEntityFormatSetting){
+    return Joi.object({
+        relatedUID: UserEntityUIDJoiType.required(),
+        maskUID: MaskUIDJoiType.required(),
+        displayName: getJoiTypeFromMinMaxRegex(format?.nicknameMinLen,format?.nicknameMaxLen,format?.nicknameRegex).optional(),
+        createTime: Joi.number().required(),
+        currentAuthorizedAPPUIDs: Joi.any().optional(),
+        pastAuthorizedAPPUIDs: Joi.any().optional(),
+        settings: UserSettingJoiType.required()
+    });
+} 
 
-let parseMaskIDEntity = generateParseFunction<MaskIDEntity>(MaskIDEntityJoiType);
-let isMaskIDEntity = generateIsTypeItemFunction(MaskIDEntityJoiType);
+function parseMaskIDEntity(format?: MaskIDEntityFormatSetting){
+    return generateParseFunction<MaskIDEntity>(getMaskIDEntityJoiType(format));
+}
+function isMaskIDEntity(format?: MaskIDEntityFormatSetting){
+    return generateIsTypeItemFunction(getMaskIDEntityJoiType(format));
+}
 
 export type {MaskIDEntity};
-export {MaskIDEntityJoiType, parseMaskIDEntity, isMaskIDEntity};
+export {getMaskIDEntityJoiType, parseMaskIDEntity, isMaskIDEntity};
 export { MaskUIDJoiType};
 export type {MaskUID};
