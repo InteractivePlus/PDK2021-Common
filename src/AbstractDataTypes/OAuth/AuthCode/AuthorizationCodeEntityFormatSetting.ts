@@ -1,5 +1,5 @@
 interface AuthorizationCodeEntityFormatSetting{
-    authCodeCharNum: number,
+    authCodeCharNum?: number,
     codeChallengeMaxLen: number,
 }
 

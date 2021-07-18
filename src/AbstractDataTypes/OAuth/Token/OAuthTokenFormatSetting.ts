@@ -1,6 +1,6 @@
 interface OAuthTokenFormatSetting{
-    accessTokenCharNum: number,
-    refreshTokenCharNum: number
+    accessTokenCharNum?: number,
+    refreshTokenCharNum?: number
 }
 
 export type {OAuthTokenFormatSetting};
