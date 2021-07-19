@@ -41,8 +41,6 @@ interface UserEntityCommon{
     settings: UserSetting,
     groupId: UserGroupGroupID,
     avatarSalt?: string,
-    lastLoginTimeGMT: number,
-    lastActiveTimeGMT: number
 }
 
 interface UserEntity extends UserEntityCommon{
@@ -77,8 +75,6 @@ function getUserEntityCommonJoiSchema(formatSetting? : UserEntityFormatSetting, 
         settings: UserSettingJoiType.required(),
         groupId: getUserGroupGroupIDJoiType(userGroupFormatSetting).required(),
         avatarSalt: Joi.string().optional(),
-        lastLoginTimeGMT: Joi.number().required(),
-        lastActiveTimeGMT: Joi.number().required()
     };
 }
 
