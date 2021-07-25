@@ -4,6 +4,7 @@ import { MaskUID, MaskUIDJoiType } from "../../MaskID/MaskIDEntity";
 import { APPClientID, APPUID, APPUIDJoiType, getAPPClientIDJoiType } from "../../RegisteredAPP/APPEntityFormat";
 import {APPEntityFormatSetting} from "../../RegisteredAPP/APPEntityFormatSetting";
 import { UserEntityUID, UserEntityUIDJoiType } from "../../User/UserEntity";
+import { OAuthScope, OAuthScopes } from "../OAuthScope";
 import {OAuthTokenFormatSetting} from "./OAuthTokenFormatSetting";
 
 type OAuthAccessToken = string;
@@ -44,7 +45,8 @@ interface OAuthToken{
     valid: boolean,
     invalidDueToRefresh?: boolean,
     userSideRemoteAddr?: string,
-    appSideRemoteAddr?: string
+    appSideRemoteAddr?: string,
+    scopes: OAuthScope[]
 }
 
 export type {OAuthToken};
@@ -64,7 +66,8 @@ function getOAuthTokenJoiType(formatSetting?: OAuthTokenFormatSetting, appEntity
         valid: Joi.boolean().required(),
         invalidDueToRefresh: Joi.boolean().optional(),
         userSideRemoteAddr: Joi.string().optional(),
-        appSideRemoteAddr: Joi.string().optional()
+        appSideRemoteAddr: Joi.string().optional(),
+        scopes: Joi.valid(...OAuthScopes).required()
     });
 }
 
