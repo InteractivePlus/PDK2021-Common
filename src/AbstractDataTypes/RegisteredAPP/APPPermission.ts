@@ -7,8 +7,12 @@ import {OAuthScope} from "../OAuth/OAuthScope";
 
 interface APPStorageScopePermission extends SettingObject{
     canStoreData: SettingBoolean,
-    userNumberLimit: SettingNumber,
+    recordNumberLimit: SettingNumber,
     perUserLimits : {
+        maxDataSizeInBytes: SettingNumber,
+        maxJSONLevel: SettingNumber
+    },
+    noUserLimits: {
         maxDataSizeInBytes: SettingNumber,
         maxJSONLevel: SettingNumber
     }
@@ -16,8 +20,12 @@ interface APPStorageScopePermission extends SettingObject{
 
 const APPStorageScopePermissionJoiType = Joi.object({
     canStoreData: SettingBooleanJoiType.required(),
-    userNumberLimit: SettingNumberJoiType.required(),
+    recordNumberLimit: SettingNumberJoiType.required(),
     perUserLimits: {
+        maxDataSizeInBytes: SettingNumberJoiType.required(),
+        maxJSONLevel: SettingNumberJoiType.required()
+    },
+    noUserLimits: {
         maxDataSizeInBytes: SettingNumberJoiType.required(),
         maxJSONLevel: SettingNumberJoiType.required()
     }
@@ -30,7 +38,7 @@ interface APPTicketSystemPermission extends SettingObject{
     canOpenTicket: SettingBoolean,
     canAcceptNoOAuthTokenTicket: SettingBoolean,
     ticketLimit: SettingNumber,
-    userNumberLimit: SettingNumber,
+    recordNumberLimit: SettingNumber,
     perUserNumberLimit: SettingNumber
 }
 
@@ -38,7 +46,7 @@ const APPTicketSystemPermissionJoiType = Joi.object({
     canOpenTicket: SettingBooleanJoiType.required(),
     canAcceptNoOAuthTokenTicket: SettingBooleanJoiType.required(), //If this is set to TRUE, no authorization is required before submitting a ticket
     ticketLimit: SettingNumberJoiType.required(),
-    userNumberLimit: SettingNumberJoiType.required(),
+    recordNumberLimit: SettingNumberJoiType.required(),
     perUserNumberLimit: SettingNumberJoiType.required()
 });
 
