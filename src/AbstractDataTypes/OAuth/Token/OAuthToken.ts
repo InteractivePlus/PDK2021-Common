@@ -33,9 +33,9 @@ export {getOAuthRefreshTokenJoiType};
 
 interface OAuthToken{
     maskUID: MaskUID,
-    userUID?: UserEntityUID,
+    userUID: UserEntityUID,
     clientID: APPClientID,
-    appUID?: APPUID,
+    appUID: APPUID,
     accessToken: OAuthAccessToken,
     refreshToken: OAuthRefreshToken,
     issueTimeGMT: number,

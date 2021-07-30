@@ -13,11 +13,11 @@ interface APPEntity{
     clientSecret: APPClientSecret;
     displayName?: string,
     description?: string,
-    creatorUserUID?: UserEntityUID,
+    creatorUserUID: UserEntityUID,
     createTimeGMT: number,
     lastModifiedTimeGMT: number,
-    ownerUserUID?: UserEntityUID,
-    managerList?: UserEntityUID[],
+    ownerUserUID: UserEntityUID,
+    managerList: UserEntityUID[],
     avatarSalt?: string,
     appGroupId: APPGroupID,
 }

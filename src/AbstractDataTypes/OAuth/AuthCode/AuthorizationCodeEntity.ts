@@ -27,7 +27,7 @@ interface AuthorizationCodeEntity{
     issueTimeGMT: number,
     expireTimeGMT: number,
     grantUserRemoteAddr: string,
-    appUID?: APPUID,
+    appUID: APPUID,
     clientID: APPClientID,
     maskUID: MaskUID,
     challengeType: AuthCodeChallengeType,
