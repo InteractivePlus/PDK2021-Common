@@ -38,10 +38,10 @@ interface TicketRecordEntity{
     ticketId: TicketRecordEntityID,
     title: string,
     contents: TicketRecordSingleResponse[],
-    relatedMaskUID?: MaskUID,
-    relatedUID?: UserEntityUID,
-    relatedClientID?: APPClientID,
-    relatedAPPUID?: APPUID,
+    relatedMaskUID: MaskUID | null,
+    relatedUID: UserEntityUID,
+    relatedClientID: APPClientID | null,
+    relatedAPPUID: APPUID | null,
     relatedOAuthToken?: OAuthAccessToken,
     relatedUserToken?: UserAccessToken
 }
@@ -51,10 +51,10 @@ function getTicketRecordEntityJoiType(formatSetting?: TicketRecordEntityFormatSe
         ticketId: TicketRecordEntityIDJoiType.required(),
         title: getJoiTypeFromMinMaxRegex(formatSetting?.titleMinLen,formatSetting?.titleMaxLen,formatSetting?.titleRegex).required(),
         contents: Joi.array().items(getTicketRecordEntityJoiType(formatSetting)).required(),
-        relatedMaskUID: MaskUIDJoiType.optional(),
-        relatedUID: UserEntityUIDJoiType.optional(),
-        relatedClientID: getAPPClientIDJoiType().optional(),
-        relatedAPPUID: APPUIDJoiType.optional(),
+        relatedMaskUID: MaskUIDJoiType.allow(null).required(),
+        relatedUID: UserEntityUIDJoiType.required(),
+        relatedClientID: getAPPClientIDJoiType().allow(null).required(),
+        relatedAPPUID: APPUIDJoiType.allow(null).required(),
         relatedOAuthToken: getOAuthAccessTokenJoiType().optional(),
         relatedUserToken: getUserAccessTokenJoiType().optional()
     });
