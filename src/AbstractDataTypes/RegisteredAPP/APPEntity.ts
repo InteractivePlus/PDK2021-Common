@@ -20,6 +20,10 @@ interface APPEntity{
     managerList: UserEntityUID[],
     avatarSalt?: string,
     appGroupId: APPGroupID,
+    callBackInfo: {
+        isURLRegex: boolean,
+        url?: string
+    }
 }
 
 export type {APPEntity};
@@ -37,7 +41,11 @@ function getAPPEntityJoiType(appEntityFormatSetting? : APPEntityFormatSetting, a
         ownerUserUID: UserEntityUIDJoiType.optional(),
         managerList: Joi.array().optional(),
         avatarSalt: Joi.string().optional(),
-        appGroupId: getAPPGroupIDJoiType(appGroupEntityFormatSetting).required()
+        appGroupId: getAPPGroupIDJoiType(appGroupEntityFormatSetting).required(),
+        callBackInfo: {
+            isURLRegex: Joi.boolean().required(),
+            url: (appEntityFormatSetting?.callBackURLMaxLen !== undefined ? Joi.string().max(appEntityFormatSetting.callBackURLMaxLen) : Joi.string()).optional()
+        }
     });
 }
 

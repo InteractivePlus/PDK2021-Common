@@ -6,7 +6,8 @@ interface APPEntityFormatSetting{
     displayNameRegex?: string,
     descriptionMinLen?: number,
     descriptionMaxLen?: number,
-    descriptionRegex?: string
+    descriptionRegex?: string,
+    callBackURLMaxLen?: number
 }
 
 export type {APPEntityFormatSetting};
