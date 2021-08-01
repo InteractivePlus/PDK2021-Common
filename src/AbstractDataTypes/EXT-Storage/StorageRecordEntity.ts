@@ -1,11 +1,9 @@
 import Joi from "joi";
 import { generateIsTypeItemFunction, generateParseFunction } from "../../Utilities/JoiCheckFunctions";
 import { MaskUID, MaskUIDJoiType } from "../MaskID/MaskIDEntity";
-import { getOAuthAccessTokenJoiType, OAuthAccessToken } from "../OAuth/Token/OAuthToken";
 import { APPClientID, APPUID, APPUIDJoiType, getAPPClientIDJoiType } from "../RegisteredAPP/APPEntityFormat";
 import { APPPermission } from "../RegisteredAPP/APPPermission";
 import { UserEntityUID, UserEntityUIDJoiType } from "../User/UserEntity";
-import { getUserAccessTokenJoiType, UserAccessToken } from "../User/UserToken";
 
 function getDataSizeInBytes(data: any) : number{
     return 0;
@@ -23,12 +21,10 @@ interface StorageRecordEntity<DataType>{
     firstStoredTimeGMT: number,
     lastUpdatedTimeGMT: number,
     storedData: DataType,
-    relatedUID?: UserEntityUID,
-    relatedMaskUID?: MaskUID,
-    relatedClientID?: APPClientID,
-    relatedAPPUID?: APPUID,
-    relatedOAuthToken?: OAuthAccessToken,
-    relatedUserToken?: UserAccessToken,
+    relatedUID: UserEntityUID | null,
+    relatedMaskUID?: MaskUID | null,
+    relatedClientID: APPClientID | null,
+    relatedAPPUID: APPUID | null,
     createIP: string,
     lastUpdatedIP: string
 }
@@ -40,12 +36,10 @@ function getStorageRecordEntityJoiType(dataJoiType : Joi.Schema = Joi.any()) : J
         firstStoredTimeGMT: Joi.number().required(),
         lastUpdatedTimeGMT: Joi.number().required(),
         storedData: dataJoiType.required(),
-        relatedUID: UserEntityUIDJoiType.optional(),
-        relatedMaskUID: MaskUIDJoiType.optional(),
-        relatedClientID: getAPPClientIDJoiType().optional(),
-        relatedAPPUID: APPUIDJoiType.optional(),
-        relatedOAuthToken: getOAuthAccessTokenJoiType().optional(),
-        relatedUserToken: getUserAccessTokenJoiType().optional(),
+        relatedUID: UserEntityUIDJoiType.allow(null).optional(),
+        relatedMaskUID: MaskUIDJoiType.allow(null).optional(),
+        relatedClientID: getAPPClientIDJoiType().allow(null).optional(),
+        relatedAPPUID: APPUIDJoiType.allow(null).optional(),
         createIP: Joi.string().required(),
         lastUpdatedIP: Joi.string().required()
     });
