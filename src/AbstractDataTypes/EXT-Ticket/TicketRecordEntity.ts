@@ -11,14 +11,18 @@ import { TicketRecordEntityFormatSetting } from "./TicketRecordEntityFormatSetti
 interface TicketRecordSingleResponse{
     content: string,
     contentByUser: boolean,
-    originatorAltName?: string
+    originatorAltName?: string,
+    contentCreateMillisGMT: number,
+    contentModifySecGMT: number,
 }
 
 function getTicketRecordSingleResponseJoiType(formatSetting?: TicketRecordEntityFormatSetting){
     return Joi.object({
         content: getJoiTypeFromMinMaxRegex(formatSetting?.contentMinLen,formatSetting?.contentMaxLen, formatSetting?.contentRegex).required(),
         contentByUser: Joi.boolean().required(),
-        originatorAltName: getJoiTypeFromMinMaxRegex(formatSetting?.contentOriginatorAltNameMinLen, formatSetting?.contentOriginatorAltNameMaxLen, formatSetting?.contentOriginatorAltNameRegex).optional()
+        originatorAltName: getJoiTypeFromMinMaxRegex(formatSetting?.contentOriginatorAltNameMinLen, formatSetting?.contentOriginatorAltNameMaxLen, formatSetting?.contentOriginatorAltNameRegex).optional(),
+        contentCreateMillisGMT: Joi.number().required(),
+        contentModifySecGMT: Joi.number().required()
     });
 }
 
