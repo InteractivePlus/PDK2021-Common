@@ -12,8 +12,8 @@ interface TicketRecordSingleResponse{
     content: string,
     contentByUser: boolean,
     originatorAltName?: string,
-    contentCreateMillisGMT: number,
-    contentModifySecGMT: number,
+    contentCreateSecGMT: number,
+    contentModifySecGMT: number
 }
 
 function getTicketRecordSingleResponseJoiType(formatSetting?: TicketRecordEntityFormatSetting){
@@ -21,7 +21,7 @@ function getTicketRecordSingleResponseJoiType(formatSetting?: TicketRecordEntity
         content: getJoiTypeFromMinMaxRegex(formatSetting?.contentMinLen,formatSetting?.contentMaxLen, formatSetting?.contentRegex).required(),
         contentByUser: Joi.boolean().required(),
         originatorAltName: getJoiTypeFromMinMaxRegex(formatSetting?.contentOriginatorAltNameMinLen, formatSetting?.contentOriginatorAltNameMaxLen, formatSetting?.contentOriginatorAltNameRegex).optional(),
-        contentCreateMillisGMT: Joi.number().required(),
+        contentCreateSecGMT: Joi.number().required(),
         contentModifySecGMT: Joi.number().required()
     });
 }
