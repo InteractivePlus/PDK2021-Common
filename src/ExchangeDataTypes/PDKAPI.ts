@@ -84,15 +84,17 @@ interface PDKAPI<
         /**
          * Backend System will pass undefined if no permission information can be retrieved(meaning requireUserToken is set to false)
          * If you are not using User Token's Related User to determine UserPermission, You should implement a Permission Control Function in the Backend Implemention
+         * You can throw Permission Denied Error any time in the function
          */
-        checkPermissionFunc?: (userCombinedPermission? : UserPermission) => boolean;
+        checkPermissionFunc?: (userCombinedPermission? : UserPermission) => Promise<void>;
     }
     appPermissionInfo: {
         /**
          * Backend System will pass undefined if no permission information can be retrieved(meaning requireOAuthToken is set to false)
          * If you are not using OAuth Token's Related APP to determine APPPermission, You should implement a Permission Control Function in the Backend Implemention
+         * You can throw Permission Denied Error any time in the function
          */
-        checkPermissionFunc?: (appCombinedPermission?: APPPermission) => boolean;
+        checkPermissionFunc?: (appCombinedPermission?: APPPermission) => Promise<void>;
     }
     oAuthPermissionInfo: {
         requiredScopes?: OAuthScope[]
