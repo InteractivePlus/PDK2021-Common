@@ -1,5 +1,6 @@
 interface CaptchaSystemSetting{
-    captchaAvailableDuration: number
+    captchaAvailableDuration: number,
+    needMatchIPAddr: boolean
 }
 
 export type {CaptchaSystemSetting};
