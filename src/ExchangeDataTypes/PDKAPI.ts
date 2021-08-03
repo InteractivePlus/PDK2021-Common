@@ -79,10 +79,18 @@ interface PDKAPI<
         requiresCaptchaToMatchClientID: boolean
     },
     userPermissionInfo: {
-        checkPermissionFunc?: (userCombinedPermission : UserPermission) => boolean;
+        /**
+         * Backend System will pass undefined if no permission information can be retrieved(meaning requireUserToken is set to false)
+         * If you are not using User Token's Related User to determine UserPermission, You should implement a Permission Control Function in the Backend Implemention
+         */
+        checkPermissionFunc?: (userCombinedPermission? : UserPermission) => boolean;
     }
     appPermissionInfo: {
-        checkPermissionFunc?: (appCombinedPermission: APPPermission) => boolean;
+        /**
+         * Backend System will pass undefined if no permission information can be retrieved(meaning requireOAuthToken is set to false)
+         * If you are not using OAuth Token's Related APP to determine APPPermission, You should implement a Permission Control Function in the Backend Implemention
+         */
+        checkPermissionFunc?: (appCombinedPermission?: APPPermission) => boolean;
     }
     oAuthPermissionInfo: {
         requiredScopes?: OAuthScope[]
