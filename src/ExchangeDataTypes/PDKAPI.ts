@@ -63,6 +63,7 @@ interface PDKAPI<
         {}
         | {user_access_token: UserAccessToken, uid: UserEntityUID}
         | {oauth_access_token: OAuthAccessToken, mask_uid: MaskUID, client_id: APPClientID, client_secret?: APPClientSecret} 
+        | {captcha_info: any}
     ,
     ReturnDataType extends {},
     PossibleErrorTypes extends PDKPossibleServerReturnErrTypes
@@ -124,6 +125,18 @@ interface PDKOAuthTokenRequiredAPI<ParamType extends {oauth_access_token: OAuthA
 }
 
 export type {PDKOAuthTokenRequiredAPI};
+
+interface PDKCaptchaRequiredAPI<ParamType extends {captcha_info: any}, ReturnDataType extends {}, PossibleErrorTypes extends PDKPossibleServerReturnErrTypes> extends PDKAPI<ParamType,ReturnDataType,PossibleErrorTypes>{
+    captchaInfo:{
+        requiresCaptcha: true,
+        requiresCaptchaToMatchUID: boolean,
+        requiresCaptchaToMatchMaskID: boolean,
+        requiresCaptchaToMatchPDK: boolean,
+        requiresCaptchaToMatchClientID: boolean
+    },
+}
+
+export type {PDKCaptchaRequiredAPI};
 
 const PDKExceptionCodeToHTTPCodeTable : {
     [key in PDKExceptionCode]: number
