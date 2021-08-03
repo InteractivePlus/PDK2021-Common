@@ -1,5 +1,6 @@
 import Joi from "joi";
 import { PDKExceptionCode } from "../AbstractDataTypes/Error/PDKException";
+import { MaskUID } from "../AbstractDataTypes/MaskID/MaskIDEntity";
 import { OAuthScope } from "../AbstractDataTypes/OAuth/OAuthScope";
 import { OAuthAccessToken } from "../AbstractDataTypes/OAuth/Token/OAuthToken";
 import { APPClientID, APPClientSecret } from "../AbstractDataTypes/RegisteredAPP/APPEntityFormat";
@@ -61,7 +62,7 @@ interface PDKAPI<
     ParamType extends
         {}
         | {user_access_token: UserAccessToken, uid: UserEntityUID}
-        | {oauth_access_token: OAuthAccessToken, client_id: APPClientID, client_secret?: APPClientSecret} 
+        | {oauth_access_token: OAuthAccessToken, mask_uid: MaskUID, client_id: APPClientID, client_secret?: APPClientSecret} 
     ,
     ReturnDataType extends {},
     PossibleErrorTypes extends PDKPossibleServerReturnErrTypes
@@ -114,7 +115,7 @@ interface PDKUserTokenRequiredAPI<ParamType extends {user_access_token: UserAcce
 
 export type {PDKUserTokenRequiredAPI};
 
-interface PDKOAuthTokenRequiredAPI<ParamType extends {oauth_access_token: OAuthAccessToken, client_id: APPClientID, client_secret?: APPClientSecret}, ReturnDataType extends {}, PossibleErrorTypes extends PDKPossibleServerReturnErrTypes> extends PDKAPI<ParamType,ReturnDataType,PossibleErrorTypes>{
+interface PDKOAuthTokenRequiredAPI<ParamType extends {oauth_access_token: OAuthAccessToken, mask_uid: MaskUID, client_id: APPClientID, client_secret?: APPClientSecret}, ReturnDataType extends {}, PossibleErrorTypes extends PDKPossibleServerReturnErrTypes> extends PDKAPI<ParamType,ReturnDataType,PossibleErrorTypes>{
     authenticationInfo: {
         requireUserToken: boolean,
         requireOAuthToken: true,
