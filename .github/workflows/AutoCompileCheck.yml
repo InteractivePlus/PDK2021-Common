@@ -27,10 +27,13 @@ jobs:
       
       # Sets up NodeJS
       - uses: actions/setup-node@v2 
+        with: 
+          node-version: '14'
+          cache: 'npm'
+      
       
       - name: Updates NPM
-        run: |
-          npm install -g npm@latest
+        run: sudo npm install -g npm@latest
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
