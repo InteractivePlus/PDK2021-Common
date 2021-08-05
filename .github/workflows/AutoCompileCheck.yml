@@ -26,20 +26,17 @@ jobs:
       - uses: actions/checkout@v2
       
       # Sets up NodeJS
-      - uses: actions/setup-node@v2 
+      - uses: actions/setup-node@v2.3.2
         with: 
           node-version: '14'
           cache: 'npm'
+          registry-url: https://registry.npmjs.org
       
       
       - name: Updates NPM
-        run: sudo npm install -g npm@latest
+        run: npm install -g npm@latest
 
-      # Runs a single command using the runners shell
-      - name: Run a one-line script
-        run: echo Hello, world!
-
-      # Runs a set of commands using the runners shell
+      # Runs NPM install and NPM build
       - name: npm install, build
         run: |
           npm install
