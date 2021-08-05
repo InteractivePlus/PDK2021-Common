@@ -27,6 +27,10 @@ jobs:
       
       # Sets up NodeJS
       - uses: actions/setup-node@v2 
+      
+      - name: Updates NPM
+        run: |
+          npm install -g npm@latest
 
       # Runs a single command using the runners shell
       - name: Run a one-line script
