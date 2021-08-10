@@ -137,3 +137,6 @@ function parseUserEntityFromOutputObject(userEntityOutput : UserEntityOutput, de
 }
 
 export {outputUserEntityAsOutputObject, parseUserEntityFromOutputObject};
+
+const phoneNumberRegexExpr = new RegExp('^\+\d{1,3}(\s)*\d{1,14}((\s)*\d{1,13})?$','g');
+export {phoneNumberRegexExpr};

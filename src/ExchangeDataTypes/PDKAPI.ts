@@ -4,6 +4,7 @@ import { OAuthScope } from "../AbstractDataTypes/OAuth/OAuthScope";
 import { OAuthAccessToken } from "../AbstractDataTypes/OAuth/Token/OAuthToken";
 import { APPClientID, APPClientSecret } from "../AbstractDataTypes/RegisteredAPP/APPEntityFormat";
 import { APPPermission } from "../AbstractDataTypes/RegisteredAPP/APPPermission";
+import { SystemSettings } from "../AbstractDataTypes/SystemSetting/SystemSettings";
 import { UserEntityUID } from "../AbstractDataTypes/User/UserEntity";
 import { UserPermission } from "../AbstractDataTypes/User/UserPermission";
 import { UserAccessToken } from "../AbstractDataTypes/User/UserToken";
@@ -70,8 +71,8 @@ interface PDKAPI<
     relativePath: string,
     interactMethod: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
     successfulHTTPCode?: number,
-    parseParams: (params: any) => {succeed: boolean, parsedParam?:ParamType, errorParams?: (keyof ParamType)[]},
-    parseReturnData: (returnData: any) => undefined | ReturnDataType,
+    parseParams: (params: any, systemSetting : SystemSettings) => {succeed: boolean, parsedParam?:ParamType, errorParams?: (keyof ParamType)[]},
+    parseReturnData: (returnData: any, systemSetting: SystemSettings) => undefined | ReturnDataType,
     captchaInfo:{
         requiresCaptcha: boolean,
         requiresCaptchaToMatchUID: boolean,
