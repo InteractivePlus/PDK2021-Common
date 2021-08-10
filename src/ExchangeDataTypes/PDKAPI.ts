@@ -1,4 +1,3 @@
-import Joi, { AnySchema } from "joi";
 import { PDKExceptionCode } from "../AbstractDataTypes/Error/PDKException";
 import { MaskUID } from "../AbstractDataTypes/MaskID/MaskIDEntity";
 import { OAuthScope } from "../AbstractDataTypes/OAuth/OAuthScope";
@@ -71,8 +70,8 @@ interface PDKAPI<
     relativePath: string,
     interactMethod: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
     successfulHTTPCode?: number,
-    paramValidationFunc: (params: any) => {succeed: boolean, errorParams: (keyof ParamType)[]},
-    returnDataValidationFunc: (params: any) => boolean,
+    parseParams: (params: any) => {succeed: boolean, parsedParam?:ParamType, errorParams?: (keyof ParamType)[]},
+    parseReturnData: (returnData: any) => undefined | ReturnDataType,
     captchaInfo:{
         requiresCaptcha: boolean,
         requiresCaptchaToMatchUID: boolean,
