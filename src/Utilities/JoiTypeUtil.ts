@@ -1,6 +1,6 @@
 import * as Joi from "joi";
 
-function getJoiTypeFromMinMaxRegex(min? : number, max? : number, regex? : string) : Joi.Schema{
+function getJoiTypeFromMinMaxRegex(min? : number, max? : number, regex? : string) {
     let type = Joi.string();
     if(min !== undefined){
         type = type.min(min);
