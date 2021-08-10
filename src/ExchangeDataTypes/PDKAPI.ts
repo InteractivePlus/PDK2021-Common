@@ -1,3 +1,4 @@
+import { VeriCodeEntityID } from "../AbstractDataTypes/Communication/VerificationCode/VerificationCodeEntity";
 import { PDKExceptionCode } from "../AbstractDataTypes/Error/PDKException";
 import { MaskUID } from "../AbstractDataTypes/MaskID/MaskIDEntity";
 import { OAuthScope } from "../AbstractDataTypes/OAuth/OAuthScope";
@@ -58,12 +59,35 @@ const PDKAPIHTTPMethods : {[httpName: string]: HTTPMethodInfo} = {
 
 export {PDKAPIHTTPMethods};
 
+interface PDKAPIUserTokenParam{
+    user_access_token: UserAccessToken, uid: UserEntityUID
+}
+
+interface PDKAPIOAuthTokenParam{
+    oauth_access_token: OAuthAccessToken, 
+    mask_uid: MaskUID, 
+    client_id: APPClientID, 
+    client_secret?: APPClientSecret
+} 
+
+interface PDKAPICaptchaParam{
+    captcha_info: any
+}
+
+interface PDKAPIVeriCodeParam{
+    verification_code: VeriCodeEntityID,
+    is_vericode_short_code?: boolean
+}
+
+export type {PDKAPIUserTokenParam, PDKAPIOAuthTokenParam, PDKAPICaptchaParam, PDKAPIVeriCodeParam};
+
 interface PDKAPI<
     ParamType extends
         {}
-        | {user_access_token: UserAccessToken, uid: UserEntityUID}
-        | {oauth_access_token: OAuthAccessToken, mask_uid: MaskUID, client_id: APPClientID, client_secret?: APPClientSecret} 
-        | {captcha_info: any}
+        | PDKAPIUserTokenParam
+        | PDKAPIOAuthTokenParam
+        | PDKAPICaptchaParam
+        | PDKAPIVeriCodeParam
     ,
     ReturnDataType extends {},
     PossibleErrorTypes extends PDKPossibleServerReturnErrTypes
@@ -87,7 +111,7 @@ interface PDKAPI<
          * You can throw Permission Denied Error any time in the function
          */
         checkPermissionFunc?: (userCombinedPermission? : UserPermission) => Promise<void>;
-    }
+    },
     appPermissionInfo: {
         /**
          * Backend System will pass undefined if no permission information can be retrieved(meaning requireOAuthToken is set to false)
@@ -95,20 +119,29 @@ interface PDKAPI<
          * You can throw Permission Denied Error any time in the function
          */
         checkPermissionFunc?: (appCombinedPermission?: APPPermission) => Promise<void>;
-    }
+    },
     oAuthPermissionInfo: {
         requiredScopes?: OAuthScope[]
-    }
+    },
     authenticationInfo: {
         requireUserToken: boolean,
         requireOAuthToken: boolean,
         verifiesClientSecretIfAuthedByBackend: boolean
+    },
+    vericodeInfo: {
+        requiresVeriCode: boolean,
+        enablesLongCode: boolean,
+        enablesShortCode: boolean,
+        requiresCaptchaToMatchUID: boolean,
+        requiresCaptchaToMatchMaskID: boolean,
+        requiresCaptchaToMatchPDK: boolean,
+        requiresCaptchaToMatchClientID: boolean
     }
 }
 
 export type {PDKAPI};
 
-interface PDKUserTokenRequiredAPI<ParamType extends {user_access_token: UserAccessToken, uid: UserEntityUID}, ReturnDataType extends {}, PossibleErrorTypes extends PDKPossibleServerReturnErrTypes> extends PDKAPI<ParamType,ReturnDataType,PossibleErrorTypes>{
+interface PDKUserTokenRequiredAPI<ParamType extends PDKAPIUserTokenParam, ReturnDataType extends {}, PossibleErrorTypes extends PDKPossibleServerReturnErrTypes> extends PDKAPI<ParamType,ReturnDataType,PossibleErrorTypes>{
     authenticationInfo: {
         requireUserToken: true,
         requireOAuthToken: boolean,
@@ -118,7 +151,7 @@ interface PDKUserTokenRequiredAPI<ParamType extends {user_access_token: UserAcce
 
 export type {PDKUserTokenRequiredAPI};
 
-interface PDKOAuthTokenRequiredAPI<ParamType extends {oauth_access_token: OAuthAccessToken, mask_uid: MaskUID, client_id: APPClientID, client_secret?: APPClientSecret}, ReturnDataType extends {}, PossibleErrorTypes extends PDKPossibleServerReturnErrTypes> extends PDKAPI<ParamType,ReturnDataType,PossibleErrorTypes>{
+interface PDKOAuthTokenRequiredAPI<ParamType extends PDKAPIOAuthTokenParam, ReturnDataType extends {}, PossibleErrorTypes extends PDKPossibleServerReturnErrTypes> extends PDKAPI<ParamType,ReturnDataType,PossibleErrorTypes>{
     authenticationInfo: {
         requireUserToken: boolean,
         requireOAuthToken: true,
@@ -128,7 +161,7 @@ interface PDKOAuthTokenRequiredAPI<ParamType extends {oauth_access_token: OAuthA
 
 export type {PDKOAuthTokenRequiredAPI};
 
-interface PDKCaptchaRequiredAPI<ParamType extends {captcha_info: any}, ReturnDataType extends {}, PossibleErrorTypes extends PDKPossibleServerReturnErrTypes> extends PDKAPI<ParamType,ReturnDataType,PossibleErrorTypes>{
+interface PDKCaptchaRequiredAPI<ParamType extends PDKAPICaptchaParam, ReturnDataType extends {}, PossibleErrorTypes extends PDKPossibleServerReturnErrTypes> extends PDKAPI<ParamType,ReturnDataType,PossibleErrorTypes>{
     captchaInfo:{
         requiresCaptcha: true,
         requiresCaptchaToMatchUID: boolean,
