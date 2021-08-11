@@ -132,10 +132,11 @@ interface PDKAPI<
         requiresVeriCode: boolean,
         enablesLongCode: boolean,
         enablesShortCode: boolean,
-        requiresCaptchaToMatchUID: boolean,
-        requiresCaptchaToMatchMaskID: boolean,
-        requiresCaptchaToMatchPDK: boolean,
-        requiresCaptchaToMatchClientID: boolean
+        requiresVeriCodeToMatchUID: boolean,
+        requiresVeriCodeToMatchMaskID: boolean,
+        requiresVeriCodeToMatchPDK: boolean,
+        requiresVeriCodeToMatchClientID: boolean,
+        requiresVeriCodeScope?: string | number
     }
 }
 
@@ -172,6 +173,20 @@ interface PDKCaptchaRequiredAPI<ParamType extends PDKAPICaptchaParam, ReturnData
 }
 
 export type {PDKCaptchaRequiredAPI};
+
+interface PDKVeriCodeRequiredAPI<ParamType extends PDKAPIVeriCodeParam, ReturnDataType extends {}, PossibleErrorTypes extends PDKPossibleServerReturnErrTypes> extends PDKAPI<ParamType,ReturnDataType,PossibleErrorTypes>{
+    vericodeInfo: {
+        requiresVeriCode: true,
+        enablesLongCode: boolean,
+        enablesShortCode: boolean,
+        requiresVeriCodeToMatchUID: boolean,
+        requiresVeriCodeToMatchMaskID: boolean,
+        requiresVeriCodeToMatchPDK: boolean,
+        requiresVeriCodeToMatchClientID: boolean
+    }
+}
+
+export type {PDKVeriCodeRequiredAPI};
 
 const PDKExceptionCodeToHTTPCodeTable : {
     [key in PDKExceptionCode]: number
