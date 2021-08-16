@@ -81,6 +81,16 @@ interface PDKAPIVeriCodeParam{
 
 export type {PDKAPIUserTokenParam, PDKAPIOAuthTokenParam, PDKAPICaptchaParam, PDKAPIVeriCodeParam};
 
+type PDKAPIParamKeys = keyof PDKAPIUserTokenParam | keyof PDKAPIOAuthTokenParam | keyof PDKAPICaptchaParam | keyof PDKAPIVeriCodeParam;
+
+export type {PDKAPIParamKeys};
+
+type ParamTypeCustomProperties<ParamType> = {
+    [key in keyof ParamType as Exclude<key,PDKAPIParamKeys>]: ParamType[key]
+}
+
+export type {ParamTypeCustomProperties};
+
 interface PDKAPI<
     ParamType extends
         {}
@@ -95,7 +105,7 @@ interface PDKAPI<
     relativePath: string,
     interactMethod: 'GET' | 'POST' | 'PUT' | 'DELETE' | 'PATCH',
     successfulHTTPCode?: number,
-    parseParams: (params: any, systemSetting : SystemSettings) => {succeed: boolean, parsedParam?:ParamType, errorParams?: (keyof ParamType)[]},
+    parseParams: (params: any, systemSetting : SystemSettings) => {succeed: boolean, parsedParam?:ParamTypeCustomProperties<ParamType>, errorParams?: (keyof ParamType)[]},
     parseReturnData: (returnData: any, systemSetting: SystemSettings) => undefined | ReturnDataType,
     captchaInfo:{
         requiresCaptcha: boolean,
